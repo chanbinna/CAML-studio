@@ -10,13 +10,13 @@ export default function Navbar() {
             <a href='/'>HOME</a>
           </li>
           <li>
-            <a href='/about'>SHOP</a>
+            <a href='/shop'>SHOP</a>
           </li>
           <li>
-            <a href='/services'>WORKSHOP</a>
+            <a href='/workshop'>WORKSHOP</a>
           </li>
           <li>
-            <a href='/contact'>GALLERY</a>
+            <a href='/gallery'>GALLERY</a>
           </li>
         </ul>
 
