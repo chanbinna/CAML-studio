@@ -1,0 +1,79 @@
+.footer {
+  border-top: solid 1px #dddddd;
+  color: black;
+  margin-top: auto;
+  padding: 40px 40px 20px 40px;
+  position: relative;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footerSection p {
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.footerSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footerSection ul li a {
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  padding: 3px 3px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px; /* 시작은 0% 너비 */
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
+}
+
+.footerSection ul li a:hover {
+  background-size: 100% 1px; /* hover 시 전체 너비로 */
+}
+
+.sidebar {
+  border-left: solid 1px #dddddd;
+  padding-left: 40px;
+}
+
+.footerBottom {
+  text-align: center;
+}
+
+.footerBottom p {
+  color: black;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cornerLogo {
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+  z-index: 10;
+}
+
+.cornerLogoImage {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.cornerLogoImage:hover {
+  opacity: 1;
+}
