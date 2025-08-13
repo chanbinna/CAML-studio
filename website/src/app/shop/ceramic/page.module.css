@@ -1,13 +1,9 @@
 .container {
   box-sizing: border-box;
-  padding: 95px 40px 0 40px;
+  padding: 95px 90px 0 90px;
   margin: 0 auto;
   height: 100vh;
   display: flex;
+  font-size: 15px;
   /* align-items: center; */
-  justify-content: center;
-}
-
-.description {
-  margin-top: 300px;
 }

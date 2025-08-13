@@ -1,16 +1,56 @@
 import styles from "./page.module.css";
+import Image from "next/image";
 
 export default function Contact() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Contact</h1>
-      <p className={styles.description}>연락처 정보</p>
-      <div className={styles.content}>
-        <ul className={styles.contactList}>
-          <li>Email: info@crmlstudio.com</li>
-          <li>Phone: +82 10-1234-5678</li>
-          <li>Address: Seoul, Korea</li>
-        </ul>
+      <div className={styles.leftPic}>
+        <Image
+          src={"/contactImg.jpeg"}
+          alt='Contact Image'
+          className={styles.leftImage}
+          priority
+          width={385}
+          height={685}
+        />
+      </div>
+      <div className={styles.rightForm}>
+        <p>
+          Should you have any questions, our Ambassadors are here to assist you.
+        </p>
+
+        <p>Contact Form</p>
+
+        <form className={styles.contactForm}>
+          <fieldset className={styles.formSection}>
+            <p>First Name: *</p>
+            <input id='firstName' type='text' placeholder='Name' />
+          </fieldset>
+
+          <fieldset className={styles.formSection}>
+            <p>Last Name: *</p>
+            <input id='lastName' type='text' placeholder='Last Name' />
+          </fieldset>
+
+          <fieldset className={styles.formSection}>
+            <p>Email: *</p>
+            <input id='email' type='text' placeholder='Email' />
+          </fieldset>
+
+          <fieldset className={styles.formSection}>
+            <p>Phone: </p>
+            <input id='phone' type='tel' placeholder='Phone' />
+          </fieldset>
+
+          <fieldset className={styles.formSection}>
+            <p className={styles.message}>Message *</p>
+            <textarea id='message' placeholder='Message' rows='8' />
+          </fieldset>
+
+          <button className={styles.submitButton} type='submit'>
+            SUBMIT
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -41,6 +41,7 @@
   background-size: 0% 1px; /* 시작은 0% 너비 */
   background-position: left bottom;
   transition: background-size 0.3s ease;
+  font-size: 15px;
 }
 
 .footerSection ul li a:hover {
