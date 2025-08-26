@@ -1,0 +1,106 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  /* background-color: white; */
+  /* backdrop-filter: blur(1px); */
+  z-index: 50;
+}
+
+.panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(60vw, 290px);
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); */
+  background-color: rgba(255, 255, 255);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+}
+
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+  left: auto;
+  transform: translateX(100%);
+}
+
+.open.left {
+  transform: translateX(0);
+}
+.open.right {
+  transform: translateX(0);
+}
+
+.content {
+  margin-top: 90px;
+  padding: 10px 40px;
+  overflow: auto;
+  height: 100%;
+}
+
+.content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.content a {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  font-size: 15px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px; /* 시작은 0% 너비 */
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
+}
+
+.content a:hover {
+  background-size: 100% 1px;
+}
+
+.login input {
+  border: none;
+  border-bottom: 1px solid #d8d7d5;
+  padding: 8px 0;
+  border-radius: 0px;
+  width: 97%;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.login input:focus {
+  border: none;
+}
+
+.signinbtn {
+  margin-top: 10px;
+  width: 100%;
+  border: solid black 1px;
+  background-color: black;
+  color: white;
+  font: inherit;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.content a.signupbtn {
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+  border: 1px solid black;
+  padding: 4px 0;
+  width: 99%;
+  background: white;
+  color: black;
+  font-size: 13px;
+}
