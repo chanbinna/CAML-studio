@@ -44,7 +44,7 @@ export default function Contact() {
 
           <fieldset className={styles.formSection}>
             <p className={styles.message}>Message *</p>
-            <textarea id='message' placeholder='Message' rows='8' />
+            <textarea id='message' placeholder='Message' rows={8} />
           </fieldset>
 
           <button className={styles.submitButton} type='submit'>
