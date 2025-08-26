@@ -10,7 +10,11 @@ export default function LeftSidebar() {
     <>
       {/* Overlay */}
       {isAnyOpen && (
-        <div className={styles.overlay} onClick={closeAll} aria-hidden='true' />
+        <div
+          className={`${styles.overlay} ${isAnyOpen ? styles.open : ""}`}
+          onClick={closeAll}
+          aria-hidden='true'
+        />
       )}
 
       {/* Panel */}
