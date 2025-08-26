@@ -1,4 +1,5 @@
 import styles from "./Footer.module.css";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Footer() {
@@ -9,19 +10,19 @@ export default function Footer() {
           <div className={styles.footerSection}>
             <ul>
               <li>
-                <a href='/about'>ABOUT</a>
+                <Link href='/about'>ABOUT</Link>
               </li>
               <li>
-                <a href='/contact'>CONTACT</a>
+                <Link href='/contact'>CONTACT</Link>
               </li>
               <li>
-                <a
+                <Link
                   href='https://www.instagram.com/crmlstudio/'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
                   INSTAGRAM
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -29,10 +30,10 @@ export default function Footer() {
           <div className={`${styles.footerSection} ${styles.sidebar}`}>
             <ul>
               <li>
-                <a href='/policy'>POLICY</a>
+                <Link href='/policy'>POLICY</Link>
               </li>
               <li>
-                <a href='/workWithUs'>WORK WITH US</a>
+                <Link href='/workWithUs'>WORK WITH US</Link>
               </li>
             </ul>
           </div>
@@ -47,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.cornerLogo}>
-          <a href='/'>
+          <Link href='/'>
             <Image
               src='/logo2.png'
               alt='CRML Studio Logo'
@@ -55,7 +56,7 @@ export default function Footer() {
               height={40}
               className={styles.cornerLogoImage}
             />
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

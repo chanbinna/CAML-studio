@@ -1,6 +1,7 @@
 "use client";
 import styles from "./Navbar.module.css";
 import Image from "next/image";
+import Link from "next/link";
 import { useSidebar } from "@/components/sidebar/SidebarProvider";
 
 export default function Navbar() {
@@ -19,7 +20,7 @@ export default function Navbar() {
       <div className={styles.container}>
         <ul className={styles.navLinks}>
           <li>
-            <a href='/'>HOME</a>
+            <Link href='/'>HOME</Link>
           </li>
 
           <li>
@@ -47,12 +48,12 @@ export default function Navbar() {
           </li>
 
           <li>
-            <a href='/gallery'>GALLERY</a>
+            <Link href='/gallery'>GALLERY</Link>
           </li>
         </ul>
 
         <div className={styles.logoCenter}>
-          <a href='/'>
+          <Link href='/'>
             <Image
               src='/logo2.png'
               alt='Website Logo'
@@ -62,7 +63,7 @@ export default function Navbar() {
               priority
               className={styles.logoImage}
             />
-          </a>
+          </Link>
         </div>
 
         <div className={`${styles.navLinks} ${styles.rightActions}`}>

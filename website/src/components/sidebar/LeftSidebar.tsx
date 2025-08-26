@@ -1,6 +1,7 @@
 "use client";
 import { useSidebar } from "./SidebarProvider";
 import styles from "./Sidebars.module.css";
+import Link from "next/link";
 
 export default function LeftSidebar() {
   const { leftView, closeAll, isAnyOpen } = useSidebar();
@@ -35,22 +36,22 @@ function ShopMenu() {
     <div className={styles.content}>
       <ul>
         <li>
-          <a href='/shop/all'>SHOP ALL</a>
+          <Link href='/shop/all'>SHOP ALL</Link>
         </li>
         <li>
-          <a href='/shop/ceramic'>CERAMIC</a>
+          <Link href='/shop/ceramic'>CERAMIC</Link>
         </li>
         <li>
-          <a href='/shop/wood'>WOOD</a>
+          <Link href='/shop/wood'>WOOD</Link>
         </li>
         <li>
-          <a href='/shop/lacquer'>LACQUER</a>
+          <Link href='/shop/lacquer'>LACQUER</Link>
         </li>
         <li>
-          <a href='/shop/glass'>GLASS</a>
+          <Link href='/shop/glass'>GLASS</Link>
         </li>
         <li>
-          <a href='/shop/artsncraft'>ARTS &amp; CRAFT</a>
+          <Link href='/shop/artsncraft'>ARTS &amp; CRAFT</Link>
         </li>
       </ul>
     </div>
@@ -62,13 +63,13 @@ function WorkshopMenu() {
     <div className={styles.content}>
       <ul>
         <li>
-          <a href='/workshop/lacquer'>LACQUER</a>
+          <Link href='/workshop/lacquer'>LACQUER</Link>
         </li>
         <li>
-          <a href='/workshop/kintsugi'>KINTSUGI</a>
+          <Link href='/workshop/kintsugi'>KINTSUGI</Link>
         </li>
         <li>
-          <a href='/workshop/marbling'>MARBLING</a>
+          <Link href='/workshop/marbling'>MARBLING</Link>
         </li>
       </ul>
     </div>
