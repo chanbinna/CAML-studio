@@ -68,31 +68,22 @@
   background-size: 100% 1px;
 }
 
-.login input {
-  border: none;
-  border-bottom: 1px solid #d8d7d5;
-  padding: 8px 0;
-  border-radius: 0px;
-  width: 97%;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-.login input:focus {
-  border: none;
-}
-
-.signinbtn {
-  margin-top: 10px;
-  width: 100%;
-  border: solid black 1px;
-  background-color: black;
-  color: white;
+.content a {
+  color: inherit;
+  text-decoration: none;
   font: inherit;
-  padding: 4px 0;
-  font-size: 13px;
+  font-size: 15px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
+}
+.content a:hover {
+  background-size: 100% 1px;
 }
 
+/* signup 링크는 예외 (버튼처럼) */
 .content a.signupbtn {
   margin-top: 10px;
   display: block;
@@ -103,4 +94,107 @@
   background: white;
   color: black;
   font-size: 13px;
+  background-image: none;
+  transition: none;
+}
+
+.content a.signupbtn:hover {
+  color: #333333;
+  border: 1px solid #7e7e7e;
+}
+
+.content a.forgot {
+  background: white;
+  font-size: 12px;
+}
+
+.content a.forgot:hover {
+  color: #5a5a5a;
+}
+
+/* 필드 래퍼 */
+.login .field {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* 인풋 (플로팅 라벨 대응 + 로그인 공통 스타일 통합) */
+.login .field input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d8d7d5;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 12px 3px; /* 라벨 들어갈 공간 */
+  outline: none;
+  background: transparent;
+}
+
+/* 포커스 시 밑줄만 강조 */
+.login .field input:focus {
+  border-bottom: 1px solid #000;
+}
+
+/* 라벨 (플로팅) */
+.login .field label {
+  position: absolute;
+  left: 0px;
+  top: 12px;
+  color: #666;
+  font-size: 13px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: white; /* 경계 선에 겹치지 않게 */
+  padding: 0 3px;
+}
+
+/* 포커스되거나 값이 있으면 위로 */
+.login .field input:focus + label,
+.login .field input:not(:placeholder-shown) + label {
+  top: -6px;
+  left: 0px;
+  font-size: 12px;
+  color: #000;
+}
+
+/* 버튼 */
+.signinbtn {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
+  font: inherit;
+  padding: 4px 0;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.signinbtn:hover {
+  background-color: #333333;
+}
+
+.searchbar {
+  display: flex;
+}
+
+.search {
+  border: solid black 1px;
+  width: 86%;
+  font-size: 15px;
+  padding: 3px 4px;
+}
+
+.searchbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14%;
+  background: none;
+  border: none;
+}
+
+.search:focus {
+  outline: none;
 }

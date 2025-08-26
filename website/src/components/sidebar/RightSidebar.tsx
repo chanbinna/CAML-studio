@@ -1,6 +1,7 @@
 "use client";
 import { useSidebar } from "./SidebarProvider";
 import styles from "./Sidebars.module.css";
+import { TfiSearch } from "react-icons/tfi";
 
 export default function RightSidebar() {
   const { rightView, closeAll, isAnyOpen } = useSidebar();
@@ -35,12 +36,17 @@ function LoginPanel() {
   return (
     <div className={styles.content}>
       <form className={styles.login}>
-        <label>
-          <input id='email' type='email' placeholder='EMAIL' />
-        </label>
-        <label>
-          <input id='password' type='password' placeholder='PASSWORD' />
-        </label>
+        <div className={styles.field}>
+          <input id='email' type='email' placeholder=' ' required />
+          <label htmlFor='email'>EMAIL</label>
+        </div>
+        <div className={styles.field}>
+          <input id='password' type='password' placeholder=' ' required />
+          <label htmlFor='password'>PASSWORD</label>
+        </div>
+        <a href='/retrive' className={styles.forgot}>
+          Forgot your password?
+        </a>
         <button type='submit' className={styles.signinbtn}>
           LOG IN
         </button>
@@ -57,7 +63,12 @@ function LoginPanel() {
 function SearchPanel() {
   return (
     <div className={styles.content}>
-      <input placeholder='Search products...' />
+      <div className={styles.searchbar}>
+        <input className={styles.search} placeholder='Search products...' />
+        <button>
+          <TfiSearch size={20} />
+        </button>
+      </div>
     </div>
   );
 }
