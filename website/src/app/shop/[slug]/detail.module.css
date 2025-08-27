@@ -1,0 +1,108 @@
+/* app/shop/[slug]/detail.module.css */
+.wrap {
+  box-sizing: border-box;
+  padding: 95px 90px 40px 90px;
+  display: grid;
+  row-gap: 20px;
+  column-gap: 150px;
+  grid-template-columns: 4.5fr 5.5fr;
+}
+@media (max-width: 1024px) {
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+.description {
+  grid-column: 1 / -1; /* ✅ 상단에서 좌+우 모든 열 차지 */
+  letter-spacing: 0.02em;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.thumb {
+  position: relative;
+  width: 95%;
+  aspect-ratio: 29 / 39; /* 비율 유지 */
+  height: auto;
+  overflow: hidden;
+  background: #f9fafb;
+}
+.img {
+  object-fit: cover;
+}
+
+.info {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.title {
+  font-size: 24px;
+  font-weight: 100;
+}
+.price {
+  font-size: 18px;
+  color: #374151;
+}
+.badges {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.quantityText {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.quantityBox {
+  margin-top: -5px;
+  border: solid black 1px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+  font-size: 14px;
+}
+
+.quantityBox button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.howtocare {
+  display: flex;
+  justify-content: space-between;
+}
+
+.policy {
+  display: flex;
+  justify-content: space-between;
+}
+
+.expand {
+  font-size: 20px;
+}
+
+.buy {
+  margin-top: 10px;
+  padding: 12px 14px;
+  width: 300px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.buy:hover {
+  opacity: 0.92;
+}
