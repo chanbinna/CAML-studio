@@ -40,7 +40,7 @@ function ShopMenu() {
     <div className={styles.content}>
       <ul>
         <li>
-          <Link href='/shop/all'>SHOP ALL</Link>
+          <Link href='/shop'>SHOP ALL</Link>
         </li>
         <li>
           <Link href='/shop/ceramic'>CERAMIC</Link>
