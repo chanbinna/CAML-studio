@@ -64,6 +64,7 @@ export default function QuantityBuy({ productId }: { productId: string }) {
         <p>I have read and agree to the studio policy</p>
         <input
           type='checkbox'
+          className={styles.checkbox}
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />
