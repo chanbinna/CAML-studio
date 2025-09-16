@@ -1,0 +1,8 @@
+.container {
+  box-sizing: border-box;
+  padding: 95px 90px 0 90px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  font-size: 15px;
+}

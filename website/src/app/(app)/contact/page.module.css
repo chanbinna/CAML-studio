@@ -1,0 +1,81 @@
+.container {
+  box-sizing: border-box;
+  padding: 95px 40px 0 40px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  /* align-items: center; */
+}
+
+.rightForm {
+  flex: 1;
+  font-size: 15px;
+  margin-left: 100px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 30px;
+}
+
+.contactForm {
+  width: 95%;
+}
+
+.formSection {
+  border: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.formSection label {
+  font-size: 15px;
+  color: #888; /* 회색 label */
+  margin-bottom: 4px;
+}
+
+.formSection input {
+  border: none;
+  border-bottom: 1px solid #d8d7d5; /* 밑줄 */
+  padding: 8px 0;
+  font-size: 15px;
+  outline: none;
+  background: transparent; /* 배경 투명 */
+  transition: border-color 0.3s;
+}
+
+.formSection textarea {
+  border: 1px solid #d8d7d5;
+  width: 100%;
+  font-size: 15px;
+  padding: 8px 0;
+  resize: vertical;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.submitButton {
+  width: 100%;
+  border: none;
+  background-color: black;
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  font-weight: 300;
+  margin-top: 16px;
+}
+
+.message {
+  margin-bottom: 15px;
+}
+
+.formSection input::placeholder,
+.formSection textarea::placeholder {
+  color: #bbbbbb; /* light gray */
+  opacity: 1; /* ensure full color */
+}

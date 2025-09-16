@@ -162,7 +162,6 @@
   color: #000;
 }
 
-/* 버튼 */
 .signinbtn {
   margin-top: 10px;
   width: 100%;
@@ -184,18 +183,64 @@
   display: flex;
 }
 
+.searchbar .field {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.searchbar .field {
+  width: 85%;
+}
+
+/* 인풋 (플로팅 라벨 대응 + 로그인 공통 스타일 통합) */
+.searchbar .field input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d8d7d5;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 12px 3px; /* 라벨 들어갈 공간 */
+  outline: none;
+  background: transparent;
+}
+
+/* 포커스 시 밑줄만 강조 */
+.searchbar .field input:focus {
+  border-bottom: 1px solid #000;
+}
+
 .search {
   border: solid black 1px;
-  width: 86%;
+  width: 90%;
   font-size: 15px;
   padding: 3px 4px;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 4px;
+  top: 35%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.clearBtn svg {
+  color: #666; /* 필요에 따라 색상 조정 */
 }
 
 .searchbar button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 14%;
+  padding: 0;
+  height: 30px;
+  margin-left: 10px;
+  margin-top: 6px;
   background: none;
   border: none;
 }

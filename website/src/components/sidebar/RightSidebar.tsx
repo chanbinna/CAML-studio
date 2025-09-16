@@ -1,7 +1,9 @@
 "use client";
+import { useState } from "react";
 import { useSidebar } from "./SidebarProvider";
 import styles from "./Sidebars.module.css";
 import { TfiSearch } from "react-icons/tfi";
+import { TfiClose } from "react-icons/tfi";
 
 export default function RightSidebar() {
   const { rightView, closeAll, isAnyOpen } = useSidebar();
@@ -65,12 +67,33 @@ function LoginPanel() {
 }
 
 function SearchPanel() {
+  const [query, setQuery] = useState("");
+
   return (
     <div className={styles.content}>
       <div className={styles.searchbar}>
-        <input className={styles.search} placeholder='Search products...' />
+        <div className={styles.field}>
+          <input
+            id='search'
+            type='text'
+            placeholder='Search...'
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            required
+          />
+          {query && (
+            <button
+              type='button'
+              className={styles.clearBtn}
+              onClick={() => setQuery("")}
+              aria-label='Clear search'
+            >
+              <TfiClose size={14} />
+            </button>
+          )}
+        </div>
         <button>
-          <TfiSearch size={20} />
+          <TfiSearch size={17} />
         </button>
       </div>
     </div>

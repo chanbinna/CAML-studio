@@ -48,7 +48,7 @@ export default function Navbar() {
           </li>
 
           <li>
-            <Link href='/gallery'>GALLERY</Link>
+            <Link href='/about'>ABOUT</Link>
           </li>
         </ul>
 

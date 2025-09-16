@@ -9,7 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "^3.55.1",
+    "@payloadcms/next": "^3.55.1",
+    "@payloadcms/payload-cloud": "^3.55.1",
+    "@payloadcms/richtext-lexical": "^3.55.1",
+    "graphql": "^16.11.0",
     "next": "15.4.5",
+    "payload": "^3.55.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0"

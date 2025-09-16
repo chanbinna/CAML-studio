@@ -1,0 +1,13 @@
+.container {
+  box-sizing: border-box;
+  padding: 95px 40px 0 40px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.description {
+  margin-top: 300px;
+}
