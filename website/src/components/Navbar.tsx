@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,12 @@ import { useSidebar } from "@/components/sidebar/SidebarProvider";
 
 export default function Navbar() {
   const { openLeft, openRight } = useSidebar();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+  }, []);
 
   const keyOpen =
     (fn: () => void) => (e: React.KeyboardEvent<HTMLAnchorElement>) => {
@@ -67,16 +74,29 @@ export default function Navbar() {
         </div>
 
         <div className={`${styles.navLinks} ${styles.rightActions}`}>
-          <a
-            className={styles.actionLink}
-            onClick={() => openRight("login")}
-            onKeyDown={keyOpen(() => openRight("login"))}
-            role='button'
-            tabIndex={0}
-            style={{ cursor: "pointer" }}
-          >
-            LOG IN
-          </a>
+          {isLoggedIn ? (
+            <a
+              className={styles.actionLink}
+              onClick={() => openRight("account")}
+              onKeyDown={keyOpen(() => openRight("account"))}
+              role='button'
+              tabIndex={0}
+              style={{ cursor: "pointer" }}
+            >
+              ACCOUNT
+            </a>
+          ) : (
+            <a
+              className={styles.actionLink}
+              onClick={() => openRight("login")}
+              onKeyDown={keyOpen(() => openRight("login"))}
+              role='button'
+              tabIndex={0}
+              style={{ cursor: "pointer" }}
+            >
+              LOG IN
+            </a>
+          )}
 
           <a
             className={styles.actionLink}

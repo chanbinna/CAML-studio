@@ -3,9 +3,20 @@ import styles from "./page.module.css";
 export default function About() {
   return (
     <div className={styles.container}>
-      <p className={styles.description}>ABOUT TEXT</p>
+      <p className={styles.description}>ABOUT CRML</p>
       <div className={styles.content}>
-        {/* 추후 회사 소개 내용이 들어갈 공간 */}
+        <p>
+          Carmel Studio is a curated space where a workshop meets a concept
+          store. Through classes in lacquerware, kintsugi, and marbling, the
+          studio explores —the subtle beauty of everyday life—and Wabi-Sabi,
+          where imperfection reveals depth and harmony.
+        </p>
+        <p>
+          Featuring works from Korean, Japanese, and American artists, each
+          piece is carefully curated by the owner’s distinctive sense of style,
+          offering objects and artworks that turn even the simplest moments into
+          something special.
+        </p>
       </div>
     </div>
   );

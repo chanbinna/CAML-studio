@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.55.1",
+    "@payloadcms/email-nodemailer": "^3.56.0",
     "@payloadcms/next": "^3.55.1",
     "@payloadcms/payload-cloud": "^3.55.1",
     "@payloadcms/richtext-lexical": "^3.55.1",
     "graphql": "^16.11.0",
     "next": "15.4.5",
+    "nodemailer": "^7.0.6",
     "payload": "^3.55.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",

@@ -1,4 +1,9 @@
 import { CollectionConfig } from 'payload'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export const FrontBanners: CollectionConfig = {
     slug: 'front-banners',
@@ -7,7 +12,7 @@ export const FrontBanners: CollectionConfig = {
         plural: 'Front Banners',
     },
     upload: {
-    staticDir: 'media',   // public/media 안에 저장
+    staticDir: path.resolve(dirname, '../../public/media'),   // public/media 안에 저장
     mimeTypes: ['image/*'],
   },
   fields: [

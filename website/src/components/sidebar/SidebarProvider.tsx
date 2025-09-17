@@ -8,7 +8,7 @@ import {
 } from "react";
 
 type LeftView = "shop" | "workshop" | null;
-type RightView = "login" | "search" | "cart" | null;
+type RightView = "login" | "search" | "cart" | "account" | null;
 
 type SidebarContextType = {
   openLeft: (view: Exclude<LeftView, null>) => void;

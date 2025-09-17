@@ -10,10 +10,10 @@ export default function Footer() {
           <div className={styles.footerSection}>
             <ul>
               <li>
-                <Link href='/about'>ABOUT</Link>
+                <Link href='/contact'>CONTACT</Link>
               </li>
               <li>
-                <Link href='/contact'>CONTACT</Link>
+                <Link href='/policy'>POLICY</Link>
               </li>
               <li>
                 <Link
@@ -27,16 +27,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className={`${styles.footerSection} ${styles.sidebar}`}>
-            <ul>
-              <li>
-                <Link href='/policy'>POLICY</Link>
-              </li>
-              <li>
-                <Link href='/workWithUs'>WORK WITH US</Link>
-              </li>
-            </ul>
-          </div>
+          {/* <div className={`${styles.footerSection} ${styles.sidebar}`}>
+            <ul></ul>
+          </div> */}
 
           <div className={styles.footerSection}></div>
 

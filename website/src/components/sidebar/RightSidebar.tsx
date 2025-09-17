@@ -33,30 +33,79 @@ export default function RightSidebar() {
         {rightView === "login" && <LoginPanel />}
         {rightView === "search" && <SearchPanel />}
         {rightView === "cart" && <CartPanel />}
+        {rightView === "account" && <AccountPanel />}
       </aside>
     </>
   );
 }
 
 function LoginPanel() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMsg(null);
+
+    try {
+      const res = await fetch("/api/login-users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        window.location.reload();
+      } else {
+        setMsg(data.errors?.[0]?.message || "Invalid credentials");
+      }
+    } catch (err) {
+      setMsg("Server error. Please try again later.");
+    }
+  };
+
   return (
     <div className={styles.content}>
-      <form className={styles.login}>
+      <form className={styles.login} onSubmit={handleLogin}>
         <div className={styles.field}>
-          <input id='email' type='email' placeholder=' ' required />
+          <input
+            id='email'
+            type='email'
+            placeholder=' '
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <label htmlFor='email'>EMAIL</label>
         </div>
+
         <div className={styles.field}>
-          <input id='password' type='password' placeholder=' ' required />
+          <input
+            id='password'
+            type='password'
+            placeholder=' '
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           <label htmlFor='password'>PASSWORD</label>
         </div>
+
         <a href='/retrive' className={styles.forgot}>
           Forgot your password?
         </a>
+        {msg && <p className={styles.error}>{msg}</p>}
         <button type='submit' className={styles.signinbtn}>
           LOG IN
         </button>
       </form>
+
       <div className={styles.signup}>
         <a href='/signup' className={styles.signupbtn}>
           SIGN UP
@@ -105,6 +154,32 @@ function CartPanel() {
     <div className={styles.content}>
       <h3>Cart</h3>
       <p>Your cart is empty.</p>
+    </div>
+  );
+}
+
+function AccountPanel() {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.reload(); // 로그아웃 후 새로고침
+  };
+
+  return (
+    <div className={styles.content}>
+      <ul className={styles.accountMenu}>
+        <li>
+          <a href='/profile'>MY PROFILE</a>
+        </li>
+        <li>
+          <a href='/orders'>MY ORDERS</a>
+        </li>
+        <li>
+          <button onClick={handleLogout} className={styles.linklike}>
+            LOG OUT
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }

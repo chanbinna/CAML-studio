@@ -1,0 +1,104 @@
+.container {
+  box-sizing: border-box;
+  padding: 95px 40px 0 40px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.signup {
+  margin-top: 140px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signup h2 {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.signup .field {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* 인풋 (플로팅 라벨 대응 + 로그인 공통 스타일 통합) */
+.signup .field input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d8d7d5;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 12px 3px; /* 라벨 들어갈 공간 */
+  outline: none;
+  background: transparent;
+}
+
+/* 포커스 시 밑줄만 강조 */
+.signup .field input:focus {
+  border-bottom: 1px solid #000;
+}
+
+/* 라벨 (플로팅) */
+.signup .field label {
+  position: absolute;
+  left: 0px;
+  top: 12px;
+  color: #666;
+  font-size: 13px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: white; /* 경계 선에 겹치지 않게 */
+  padding: 0 3px;
+}
+
+/* 포커스되거나 값이 있으면 위로 */
+.signup .field input:focus + label,
+.signup .field input:not(:placeholder-shown) + label {
+  top: -6px;
+  left: 0px;
+  font-size: 12px;
+  color: #000;
+}
+
+.signupbtn {
+  width: 100%;
+  border: 1px solid #000;
+  background-color: white;
+  color: black;
+  font: inherit;
+  padding: 6px 0;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 40px;
+
+  display: block; /* 버튼을 block으로 */
+  margin-left: auto; /* 왼쪽 자동 여백 */
+  margin-right: auto;
+}
+
+.signupbtn:hover {
+  color: #666;
+}
+
+.helper {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+  gap: 4px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 12px;
+  color: red;
+  gap: 4px;
+}
