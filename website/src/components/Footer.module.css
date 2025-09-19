@@ -19,7 +19,7 @@
 
 .footerSection p {
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .footerSection ul {
@@ -41,7 +41,7 @@
   background-size: 0% 1px; /* 시작은 0% 너비 */
   background-position: left bottom;
   transition: background-size 0.3s ease;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .footerSection ul li a:hover {
@@ -49,8 +49,8 @@
 }
 
 .sidebar {
-  border-left: solid 1px #dddddd;
-  padding-left: 40px;
+  /* border-left: solid 1px #dddddd; */
+  padding-left: 10px;
 }
 
 .footerBottom {

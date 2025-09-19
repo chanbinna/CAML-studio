@@ -45,7 +45,7 @@ export default function Home() {
       <div className={styles.page}>
         <main className={styles.main}>
           <div className={styles.container}>
-            <div
+            {/* <div
               className={styles.grayBox}
               style={{
                 display: "flex",
@@ -56,7 +56,7 @@ export default function Home() {
               <p style={{ color: "#fff", fontSize: "20px" }}>
                 Loading banners...
               </p>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>

@@ -31,6 +31,10 @@ export default function Navbar() {
           </li>
 
           <li>
+            <Link href='/about'>ABOUT</Link>
+          </li>
+
+          <li>
             <a
               onClick={() => openLeft("shop")}
               onKeyDown={keyOpen(() => openLeft("shop"))}
@@ -53,10 +57,10 @@ export default function Navbar() {
               WORKSHOP
             </a>
           </li>
-
+          {/* 
           <li>
-            <Link href='/about'>ABOUT</Link>
-          </li>
+            <Link href='/'>FINE ART</Link>
+          </li> */}
         </ul>
 
         <div className={styles.logoCenter}>

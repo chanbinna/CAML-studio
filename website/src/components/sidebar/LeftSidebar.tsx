@@ -67,6 +67,9 @@ function WorkshopMenu() {
     <div className={styles.content}>
       <ul>
         <li>
+          <Link href='/workshop/'>ALL WORKSHOP</Link>
+        </li>
+        <li>
           <Link href='/workshop/lacquer'>LACQUER</Link>
         </li>
         <li>
