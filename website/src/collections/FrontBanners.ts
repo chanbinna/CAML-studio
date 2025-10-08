@@ -21,6 +21,7 @@ export const FrontBanners: CollectionConfig = {
     update: ({ req }) => !!req.user, // 로그인 유저만 수정 가능
     delete: ({ req }) => !!req.user, // 로그인 유저만 삭제 가능
   },
+
   fields: [
     {
       name: 'alt',

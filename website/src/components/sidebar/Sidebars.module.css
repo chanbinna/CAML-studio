@@ -275,7 +275,14 @@
   text-align: left; /* 버튼은 기본적으로 가운데 정렬되므로 맞춰줌 */
 }
 
-
 .content button.linklike:hover {
   background-size: 100% 1px;
 }
+
+/* .content {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.content.loaded {
+  opacity: 1;
+} */

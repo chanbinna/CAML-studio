@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { SidebarProvider } from "@/components/sidebar/SidebarProvider";
 import LeftSidebar from "@/components/sidebar/LeftSidebar";
 import RightSidebar from "@/components/sidebar/RightSidebar";
+import GlobalToast from "@/components/GlobalToast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({
           <LeftSidebar />
           <RightSidebar />
         </SidebarProvider>
+        <GlobalToast />
       </body>
     </html>
   );

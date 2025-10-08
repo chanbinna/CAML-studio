@@ -1,84 +1,29 @@
-"use client";
-import { useSidebar } from "./SidebarProvider";
+// components/LeftSidebar.tsx
 import styles from "./Sidebars.module.css";
-import Link from "next/link";
+import LeftSidebarClient, { Category } from "./LeftSidebarClient";
 
-export default function LeftSidebar() {
-  const { leftView, closeAll, isAnyOpen } = useSidebar();
+export default async function LeftSidebar() {
+  const base = process.env.PAYLOAD_URL || process.env.NEXT_PUBLIC_API_URL;
+
+  let categories: Category[] = [];
+
+  try {
+    const res = await fetch(`${base}/api/shopCategories?sort=createdAt`, {
+      cache: "no-store", // ✅ 항상 최신
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    categories = data.docs || [];
+  } catch (err) {
+    console.error("❌ Failed to fetch categories:", err);
+  }
 
   return (
-    <>
-      {/* Overlay */}
-      {isAnyOpen && (
-        <div
-          className={`${styles.overlay} ${isAnyOpen ? styles.open : ""}`}
-          onClick={closeAll}
-          aria-hidden='true'
-        />
-      )}
-
-      {/* Panel */}
-      <aside
-        data-sidebar-panel
-        className={`${styles.panel} ${styles.left} ${
-          leftView ? styles.open : ""
-        }`}
-        role='dialog'
-        aria-modal='true'
-        aria-label='Left sidebar'
-        onPointerDown={(e) => e.stopPropagation()}
-      >
-        {leftView === "shop" && <ShopMenu />}
-        {leftView === "workshop" && <WorkshopMenu />}
-      </aside>
-    </>
-  );
-}
-
-function ShopMenu() {
-  return (
-    <div className={styles.content}>
-      <ul>
-        <li>
-          <Link href='/shop'>SHOP ALL</Link>
-        </li>
-        <li>
-          <Link href='/shop/ceramic'>CERAMIC</Link>
-        </li>
-        <li>
-          <Link href='/shop/wood'>WOOD</Link>
-        </li>
-        <li>
-          <Link href='/shop/lacquer'>LACQUER</Link>
-        </li>
-        <li>
-          <Link href='/shop/glass'>GLASS</Link>
-        </li>
-        <li>
-          <Link href='/shop/artsncraft'>ARTS &amp; CRAFT</Link>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-function WorkshopMenu() {
-  return (
-    <div className={styles.content}>
-      <ul>
-        <li>
-          <Link href='/workshop/'>ALL WORKSHOP</Link>
-        </li>
-        <li>
-          <Link href='/workshop/lacquer'>LACQUER</Link>
-        </li>
-        <li>
-          <Link href='/workshop/kintsugi'>KINTSUGI</Link>
-        </li>
-        <li>
-          <Link href='/workshop/marbling'>MARBLING</Link>
-        </li>
-      </ul>
-    </div>
+    <LeftSidebarClient
+      categories={categories}
+      styles={styles} // css 모듈 전달
+    />
   );
 }
