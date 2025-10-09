@@ -7,6 +7,8 @@ import { SidebarProvider } from "@/components/sidebar/SidebarProvider";
 import LeftSidebar from "@/components/sidebar/LeftSidebar";
 import RightSidebar from "@/components/sidebar/RightSidebar";
 import GlobalToast from "@/components/GlobalToast";
+import { AuthProvider } from "@/components/AuthProvider";
+import { CartProvider } from "@/components/CartProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,22 +33,26 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SidebarProvider>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              minHeight: "100vh",
-            }}
-          >
-            <Navbar />
-            <main style={{ flex: 1 }}>{children}</main>
-            <Footer />
-          </div>
-          <LeftSidebar />
-          <RightSidebar />
-        </SidebarProvider>
-        <GlobalToast />
+        <AuthProvider>
+          <SidebarProvider>
+            <CartProvider>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minHeight: "100vh",
+                }}
+              >
+                <Navbar />
+                <main style={{ flex: 1 }}>{children}</main>
+                <Footer />
+              </div>
+              <LeftSidebar />
+              <RightSidebar />
+            </CartProvider>
+          </SidebarProvider>
+          <GlobalToast />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -69,9 +69,16 @@
   background-size: 0% 1px; /* 시작은 0% 너비 */
   background-position: left bottom;
   transition: background-size 0.3s ease;
+  cursor: pointer;
 }
 
 .navLinks li a:hover,
 .actionLink:hover {
   background-size: 100% 1px; /* hover 시 전체 너비로 */
+}
+
+.navLinks li a.active,
+.actionLink.active {
+  background-size: 100% 1px;
+  font-weight: 500;
 }

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "@/components/AuthProvider"; // ✅ 추가
 import styles from "./detail.module.css";
 import { useSidebar } from "../../../../../components/sidebar/SidebarProvider";
+import { useCart } from "@/components/CartProvider";
 
 export default function QuantityBuy({ productId }: { productId: string }) {
   const [qty, setQty] = useState(1);
@@ -11,7 +13,9 @@ export default function QuantityBuy({ productId }: { productId: string }) {
   const [openCare, setOpenCare] = useState(false);
   const [openReturn, setOpenReturn] = useState(false);
   const [openPolicy, setOpenPolicy] = useState(false);
+  const { refreshCart } = useCart();
 
+  const { user } = useAuth(); // ✅ 로그인 여부 확인용
   const { openRight } = useSidebar();
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,10 +28,8 @@ export default function QuantityBuy({ productId }: { productId: string }) {
     }
     setPolicyError(false);
 
-    // 2️⃣ 로그인 여부 확인
-    const token = localStorage.getItem("token");
-    if (!token) {
-      localStorage.setItem("toast", "Please sign in to continue.");
+    // 2️⃣ 로그인 여부 확인 (user 기반)
+    if (!user) {
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Please sign in to continue." })
       );
@@ -41,19 +43,23 @@ export default function QuantityBuy({ productId }: { productId: string }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // ✅ 이제 Authorization 헤더 필요 없음 (세션 쿠키 기반)
         },
         body: JSON.stringify({ productId, quantity: qty }),
+        credentials: "include", // ✅ 세션 쿠키 포함
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        localStorage.setItem("toast", "Item added to your cart!");
+        // ✅ 여기가 핵심
+        await refreshCart(); // 전역 cart 갱신
+        setChecked(false); // policy 체크 해제
+        openRight("cart"); // 사이드바 열기
         window.dispatchEvent(
           new CustomEvent("toast", { detail: "Item added to your cart!" })
         );
       } else {
-        const data = await res.json();
-        localStorage.setItem("toast", data.message || "Failed to add to cart.");
         window.dispatchEvent(
           new CustomEvent("toast", {
             detail: data.message || "Failed to add to cart.",
@@ -61,28 +67,23 @@ export default function QuantityBuy({ productId }: { productId: string }) {
         );
       }
     } catch (err) {
-      localStorage.setItem("toast", "Server error. Please try again.");
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Server error. Please try again." })
       );
     }
   };
 
-  // ✅ 결제 버튼 처리
   const handleCheckout = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // 1️⃣ Studio Policy 체크 여부 확인
     if (!checked) {
       setPolicyError(true);
       return;
     }
     setPolicyError(false);
 
-    // 2️⃣ 로그인 여부 확인
-    const token = localStorage.getItem("token");
-    if (!token) {
-      localStorage.setItem("toast", "Please sign in to continue.");
+    // ✅ 로그인 여부 확인
+    if (!user) {
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Please sign in to continue." })
       );
@@ -90,7 +91,7 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       return;
     }
 
-    // 3️⃣ ✅ 로그인 되어 있으면 결제 진행
+    // ✅ 로그인되어 있으면 결제 진행
     e.currentTarget.submit();
   };
 

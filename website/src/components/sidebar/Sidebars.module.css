@@ -15,7 +15,7 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  width: min(60vw, 290px);
+  width: min(60vw, 300px);
   /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); */
   background-color: rgba(255, 255, 255);
   transform: translateX(-100%);
@@ -286,3 +286,161 @@
 .content.loaded {
   opacity: 1;
 } */
+
+.cartList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1; /* 남은 공간 전부 사용 */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 15px;
+}
+
+.cartImage {
+  width: 65px;
+  height: 85px;
+  object-fit: cover;
+  border: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.cartInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.productCategory {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.productPrice {
+  font-size: 13px;
+  font-weight: 500;
+  color: #222;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 40%;
+}
+
+.quantityControl button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.quantityControl button:hover {
+  color: #000;
+}
+
+.quantityControl span {
+  font-size: 13px;
+  width: 20px;
+  text-align: center;
+}
+
+.cartAction {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  padding: 0px;
+  height: 18px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: gray;
+}
+
+.totalSection {
+  position: sticky;
+  bottom: 60px; /* 버튼 위에 고정 */
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 500;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+  padding-bottom: 20px;
+  background: white;
+  z-index: 10;
+}
+
+.buttonBack {
+  position: sticky;
+  bottom: 0; /* 부모 맨 아래 */
+  background: white;
+  padding-bottom: 20px;
+}
+
+.checkoutBtn {
+  width: 100%;
+  background: #111;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  font-size: 13px;
+  margin-top: 0;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 20;
+}
+
+.checkoutBtn:hover {
+  background: #333;
+}
+
+.contentCart {
+  margin-top: 90px;
+  padding: 10px 40px;
+  /* overflow: auto; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.contentCartSub {
+  flex: 1; /* 👈 남은 공간 채우기 */
+  overflow: visible; /* 👈 이 부분은 sticky를 가리지 않게 */
+}
+
+.contentCart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}

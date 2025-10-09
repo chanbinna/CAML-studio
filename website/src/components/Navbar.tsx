@@ -1,18 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/components/AuthProvider";
+import { useSidebar } from "@/components/sidebar/SidebarProvider";
 import styles from "./Navbar.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useSidebar } from "@/components/sidebar/SidebarProvider";
+import { useCart } from "@/components/CartProvider";
 
 export default function Navbar() {
-  const { openLeft, openRight } = useSidebar();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    setIsLoggedIn(!!user);
-  }, []);
+  const { openLeft, openRight, leftView, rightView } = useSidebar();
+  const { user } = useAuth();
+  const { cart } = useCart();
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const keyOpen =
     (fn: () => void) => (e: React.KeyboardEvent<HTMLAnchorElement>) => {
@@ -22,6 +20,9 @@ export default function Navbar() {
       }
     };
 
+  // ✅ 현재 활성화된 메뉴 판별 함수
+  const isActive = (menu: string) => leftView === menu || rightView === menu;
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -29,7 +30,6 @@ export default function Navbar() {
           <li>
             <Link href='/'>HOME</Link>
           </li>
-
           <li>
             <Link href='/about'>ABOUT</Link>
           </li>
@@ -40,7 +40,7 @@ export default function Navbar() {
               onKeyDown={keyOpen(() => openLeft("shop"))}
               role='button'
               tabIndex={0}
-              style={{ cursor: "pointer" }}
+              className={`${isActive("shop") ? styles.active : ""}`}
             >
               SHOP
             </a>
@@ -52,15 +52,11 @@ export default function Navbar() {
               onKeyDown={keyOpen(() => openLeft("workshop"))}
               role='button'
               tabIndex={0}
-              style={{ cursor: "pointer" }}
+              className={`${isActive("workshop") ? styles.active : ""}`}
             >
               WORKSHOP
             </a>
           </li>
-          {/* 
-          <li>
-            <Link href='/'>FINE ART</Link>
-          </li> */}
         </ul>
 
         <div className={styles.logoCenter}>
@@ -78,50 +74,46 @@ export default function Navbar() {
         </div>
 
         <div className={`${styles.navLinks} ${styles.rightActions}`}>
-          {isLoggedIn ? (
+          {user ? (
             <a
-              className={styles.actionLink}
+              className={`${styles.actionLink} ${isActive("account") ? styles.active : ""}`}
               onClick={() => openRight("account")}
               onKeyDown={keyOpen(() => openRight("account"))}
               role='button'
               tabIndex={0}
-              style={{ cursor: "pointer" }}
             >
               ACCOUNT
             </a>
           ) : (
             <a
-              className={styles.actionLink}
+              className={`${styles.actionLink} ${isActive("login") ? styles.active : ""}`}
               onClick={() => openRight("login")}
               onKeyDown={keyOpen(() => openRight("login"))}
               role='button'
               tabIndex={0}
-              style={{ cursor: "pointer" }}
             >
               LOG IN
             </a>
           )}
 
           <a
-            className={styles.actionLink}
+            className={`${styles.actionLink} ${isActive("search") ? styles.active : ""}`}
             onClick={() => openRight("search")}
             onKeyDown={keyOpen(() => openRight("search"))}
             role='button'
             tabIndex={0}
-            style={{ cursor: "pointer" }}
           >
             SEARCH
           </a>
 
           <a
-            className={styles.actionLink}
+            className={`${styles.actionLink} ${isActive("cart") ? styles.active : ""}`}
             onClick={() => openRight("cart")}
             onKeyDown={keyOpen(() => openRight("cart"))}
             role='button'
             tabIndex={0}
-            style={{ cursor: "pointer" }}
           >
-            CART <span className={styles.cartCount}>[0]</span>
+            CART <span className={styles.cartCount}>[{totalCount}]</span>
           </a>
         </div>
       </div>

@@ -1,32 +1,29 @@
 // app/api/add-to-cart/route.ts
-import { NextResponse } from "next/server";
-import { getPayloadClient } from "@/lib/payloadClient.server"; // ✅ 방금 만든 helper import
+import { NextRequest, NextResponse } from "next/server";
+import { getPayloadClient } from "@/lib/payloadClient.server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!token) {
+    const payload = await getPayloadClient();
+    const { productId, quantity } = await req.json();
+
+    if (!productId) {
+      return NextResponse.json(
+        { message: "Product ID required" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ 쿠키 기반 인증 (Authorization 헤더 X)
+    const { user } = await payload.auth({
+      headers: req.headers,
+    });
+
+    if (!user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { productId, quantity } = await req.json();
-    if (!productId) {
-      return NextResponse.json({ message: "Product ID required" }, { status: 400 });
-    }
-
-    const payload = await getPayloadClient(); // ✅ Payload 인스턴스 초기화
-
-    const verified = await payload.auth({
-      headers: new Headers({
-        Authorization: `JWT ${token}`,
-      }),
-    });
-
-    const user = (verified as any)?.user;
-    if (!user) {
-      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
-    }
-
+    // ✅ 기존 장바구니 불러오기 및 업데이트
     const existingCart = Array.isArray(user.cart) ? user.cart : [];
     const existingItem = existingCart.find(
       (item: any) => item.productId === productId
@@ -40,13 +37,14 @@ export async function POST(req: Request) {
         )
       : [...existingCart, { productId, quantity }];
 
+    // ✅ DB 업데이트
     await payload.update({
       collection: "login-users",
       id: user.id,
       data: { cart: newCart },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, cart: newCart });
   } catch (err) {
     console.error("Add to cart error:", err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

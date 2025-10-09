@@ -1,12 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSidebar } from "./SidebarProvider";
 import styles from "./Sidebars.module.css";
 import { TfiSearch } from "react-icons/tfi";
 import { TfiClose } from "react-icons/tfi";
+import { useAuth } from "../AuthProvider";
 
 export default function RightSidebar() {
   const { rightView, closeAll, isAnyOpen } = useSidebar();
+  const { user } = useAuth();
 
   return (
     <>
@@ -30,10 +32,10 @@ export default function RightSidebar() {
         aria-label='Right sidebar'
         onPointerDown={(e) => e.stopPropagation()}
       >
-        {rightView === "login" && <LoginPanel />}
+        {(rightView === "login" || rightView === "account") &&
+          (user ? <AccountPanel /> : <LoginPanel />)}
         {rightView === "search" && <SearchPanel />}
         {rightView === "cart" && <CartPanel />}
-        {rightView === "account" && <AccountPanel />}
       </aside>
     </>
   );
@@ -53,14 +55,12 @@ function LoginPanel() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
         window.location.reload();
       } else {
         setMsg(data.errors?.[0]?.message || "Invalid credentials");
@@ -149,20 +149,127 @@ function SearchPanel() {
   );
 }
 
+import { useCart } from "../CartProvider";
+
 function CartPanel() {
+  const { user } = useAuth();
+  const { openRight } = useSidebar();
+  const { cart, refreshCart, updateCartLocally, loading } = useCart();
+
+  if (!user) {
+    return (
+      <div className={styles.content}>
+        <p className={styles.emptyText}>Please log in to view your cart.</p>
+        <button className={styles.loginBtn} onClick={() => openRight("login")}>
+          LOG IN
+        </button>
+      </div>
+    );
+  }
+
+  // ✅ 로딩 중 상태 처리
+  if (loading) {
+    return (
+      <div className={styles.content}>
+        <p>Loading cart...</p>
+      </div>
+    );
+  }
+
+  if (!cart.length) {
+    return (
+      <div className={styles.content}>
+        <p className={styles.emptyText}>Your cart is empty.</p>
+      </div>
+    );
+  }
+
+  const handleQuantityChange = async (productId: string, newQty: number) => {
+    if (newQty < 1) return;
+
+    const res = await fetch("/api/update-cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ productId, quantity: newQty }),
+    });
+    if (!res.ok) return;
+
+    updateCartLocally(
+      cart.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQty } : item
+      )
+    );
+  };
+
+  const handleRemove = async (productId: string) => {
+    const res = await fetch("/api/update-cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ productId, quantity: 0 }),
+    });
+    if (!res.ok) return;
+
+    updateCartLocally(cart.filter((item) => item.productId !== productId));
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
-    <div className={styles.content}>
-      <h3>Cart</h3>
-      <p>Your cart is empty.</p>
+    <div className={styles.contentCart}>
+      <div className={styles.contentCartSub}>
+        <ul className={styles.cartList}>
+          {cart.map((item) => (
+            <li key={item.productId} className={styles.cartItem}>
+              <img src={item.thumbnail} alt={item.name} className={styles.cartImage} />
+              <div className={styles.cartInfo}>
+                <p className={styles.productName}>{item.name}</p>
+                <p className={styles.productCategory}>{item.category}</p>
+                <p className={styles.productPrice}>${item.price.toFixed(2)}</p>
+                <div className={styles.cartAction}>
+                  <div className={styles.quantityControl}>
+                    <button onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}>
+                      –
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}>
+                      +
+                    </button>
+                  </div>
+                  <button className={styles.removeBtn} onClick={() => handleRemove(item.productId)}>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={styles.totalSection}>
+        <p>Total:</p>
+        <p>${total.toFixed(2)}</p>
+      </div>
+
+      <div className={styles.buttonBack}>
+        <button className={styles.checkoutBtn}>PROCEED TO CHECKOUT</button>
+      </div>
     </div>
   );
 }
 
 function AccountPanel() {
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.reload(); // 로그아웃 후 새로고침
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/login-users/logout", {
+        method: "POST",
+        credentials: "include", // ✅ 세션 쿠키 전송
+      });
+      window.location.reload(); // ✅ 쿠키 만료 후 새로고침
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   return (

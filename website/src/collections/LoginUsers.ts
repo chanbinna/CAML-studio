@@ -1,68 +1,60 @@
-import { CollectionConfig } from 'payload'
+import { CollectionConfig } from "payload";
 
 export const LoginUsers: CollectionConfig = {
-  slug: 'login-users',   // ✅ 여기 이름이 곧 API 경로가 돼요
+  slug: "login-users",
+
   auth: {
-    forgotPassword: {
-      // 옵션은 비워도 되고 필요하면 커스터마이즈 가능
-      // expiration: 3600, // 토큰 만료 시간 (초 단위, 기본 1시간)
+    // ✅ 고객용 인증 활성화
+    useAPIKey: false,
+
+    // ✅ 쿠키 이름을 관리자(Admin)와 분리
+    cookies: {
+      name: "login-users-token", // 💡 고객용 세션 쿠키 이름
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
     },
-  },           // ✅ 인증 기능 활성화
+
+    // ✅ 세션(자동 로그인 유지) 설정
+    tokenExpiration: 60 * 60 * 24 * 7, // 7일 (초 단위)
+    verify: false, // 이메일 인증 비활성화 (원하면 true로 변경 가능)
+  },
+
   fields: [
+    { name: "name", type: "text", required: true },
+    { name: "lastName", type: "text", required: true },
+
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'lastName',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'cart',
-      type: 'array',
-      label: 'Cart',
+      name: "cart",
+      type: "array",
+      label: "Cart",
       fields: [
-        {
-          name: 'productId',
-          type: 'text', // 또는 relationTo: 'products' (상품 컬렉션과 연결 가능)
-        },
-        {
-          name: 'quantity',
-          type: 'number',
-          defaultValue: 1,
-        },
+        { name: "productId", type: "text" },
+        { name: "quantity", type: "number", defaultValue: 1 },
       ],
     },
+
     {
-      name: 'orders',
-      type: 'array',
-      label: 'Orders',
+      name: "orders",
+      type: "array",
+      label: "Orders",
       fields: [
+        { name: "orderId", type: "text" },
         {
-          name: 'orderId',
-          type: 'text',
-        },
-        {
-          name: 'items',
-          type: 'array',
+          name: "items",
+          type: "array",
           fields: [
-            { name: 'productId', type: 'text' },
-            { name: 'quantity', type: 'number' },
-            { name: 'price', type: 'number' },
+            { name: "productId", type: "text" },
+            { name: "quantity", type: "number" },
+            { name: "price", type: "number" },
           ],
         },
+        { name: "total", type: "number" },
         {
-          name: 'total',
-          type: 'number',
-        },
-        {
-          name: 'purchasedAt',
-          type: 'date', // ✅ 구매일자
-          defaultValue: () => new Date(), // 기본값: 현재 시간
+          name: "purchasedAt",
+          type: "date",
+          defaultValue: () => new Date(),
         },
       ],
     },
   ],
-}
+};
