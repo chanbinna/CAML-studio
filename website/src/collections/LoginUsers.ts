@@ -2,21 +2,23 @@ import { CollectionConfig } from "payload";
 
 export const LoginUsers: CollectionConfig = {
   slug: "login-users",
+  admin: {
+    group: "User Management",
+  },
 
   auth: {
-    // ✅ 고객용 인증 활성화
     useAPIKey: false,
 
-    // ✅ 쿠키 이름을 관리자(Admin)와 분리
+    
     cookies: {
-      name: "login-users-token", // 💡 고객용 세션 쿠키 이름
+      // @ts-expect-error: Payload type defs don't include `name`, but it works at runtime.
+      name: "login-users-token",
       sameSite: "Lax",
       secure: process.env.NODE_ENV === "production",
+      path: "/api",
     },
-
-    // ✅ 세션(자동 로그인 유지) 설정
-    tokenExpiration: 60 * 60 * 24 * 7, // 7일 (초 단위)
-    verify: false, // 이메일 인증 비활성화 (원하면 true로 변경 가능)
+    tokenExpiration: 60 * 60 * 2,
+    verify: false,
   },
 
   fields: [
@@ -30,6 +32,7 @@ export const LoginUsers: CollectionConfig = {
       fields: [
         { name: "productId", type: "text" },
         { name: "quantity", type: "number", defaultValue: 1 },
+        { name: "price", type: "number", required: true },
       ],
     },
 

@@ -11,6 +11,9 @@ export const FrontBanners: CollectionConfig = {
         singular: 'Front Banner',
         plural: 'Front Banners',
     },
+    admin: {
+      group: "Site Contents",
+    },
     upload: {
     staticDir: path.resolve(dirname, '../../public/media'),   // public/media 안에 저장
     mimeTypes: ['image/*'],

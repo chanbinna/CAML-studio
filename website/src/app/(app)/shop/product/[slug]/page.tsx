@@ -18,7 +18,7 @@ type Product = {
 export default async function ProductDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const base = process.env.PAYLOAD_URL || process.env.NEXT_PUBLIC_API_URL;
@@ -89,7 +89,7 @@ export default async function ProductDetail({
           </div>
         )}
 
-        <QuantityBuy productId={product.id} />
+        <QuantityBuy productId={product.slug} />
       </div>
     </div>
   );

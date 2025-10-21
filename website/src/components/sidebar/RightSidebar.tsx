@@ -159,10 +159,15 @@ function CartPanel() {
   if (!user) {
     return (
       <div className={styles.content}>
-        <p className={styles.emptyText}>Please log in to view your cart.</p>
-        <button className={styles.loginBtn} onClick={() => openRight("login")}>
-          LOG IN
-        </button>
+        <div className={styles.cartNone}>
+          <p className={styles.emptyText}>Please log in to view your cart.</p>
+          <button
+            className={styles.loginBtn}
+            onClick={() => openRight("login")}
+          >
+            LOG IN
+          </button>
+        </div>
       </div>
     );
   }
@@ -214,6 +219,31 @@ function CartPanel() {
     updateCartLocally(cart.filter((item) => item.productId !== productId));
   };
 
+  const handleCheckout = async () => {
+    try {
+      const currentUrl = window.location.href;
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ cancelUrl: currentUrl }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.url) {
+        window.location.href = data.url; // ✅ Stripe 결제창으로 이동
+      } else {
+        console.error("Checkout failed:", data.message);
+        alert("Checkout failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("❌ Checkout error:", err);
+      alert("Server error. Please try again later.");
+    }
+  };
+
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -222,22 +252,37 @@ function CartPanel() {
         <ul className={styles.cartList}>
           {cart.map((item) => (
             <li key={item.productId} className={styles.cartItem}>
-              <img src={item.thumbnail} alt={item.name} className={styles.cartImage} />
+              <img
+                src={item.thumbnail}
+                alt={item.name}
+                className={styles.cartImage}
+              />
               <div className={styles.cartInfo}>
                 <p className={styles.productName}>{item.name}</p>
                 <p className={styles.productCategory}>{item.category}</p>
                 <p className={styles.productPrice}>${item.price.toFixed(2)}</p>
                 <div className={styles.cartAction}>
                   <div className={styles.quantityControl}>
-                    <button onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.productId, item.quantity - 1)
+                      }
+                    >
                       –
                     </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.productId, item.quantity + 1)
+                      }
+                    >
                       +
                     </button>
                   </div>
-                  <button className={styles.removeBtn} onClick={() => handleRemove(item.productId)}>
+                  <button
+                    className={styles.removeBtn}
+                    onClick={() => handleRemove(item.productId)}
+                  >
                     Remove
                   </button>
                 </div>
@@ -253,7 +298,9 @@ function CartPanel() {
       </div>
 
       <div className={styles.buttonBack}>
-        <button className={styles.checkoutBtn}>PROCEED TO CHECKOUT</button>
+        <button className={styles.checkoutBtn} onClick={handleCheckout}>
+          PROCEED TO CHECKOUT
+        </button>
       </div>
     </div>
   );

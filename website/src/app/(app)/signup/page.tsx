@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CiCircleInfo, CiCircleAlert } from "react-icons/ci";
 import styles from "./signup.module.css";
@@ -45,6 +45,7 @@ export default function SignUp() {
         setMsg(data.errors?.[0]?.message || "Signup failed.");
       }
     } catch (err) {
+      console.error(err);
       setMsg("Server error. Please try again later.");
     }
   };

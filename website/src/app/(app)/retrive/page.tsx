@@ -30,6 +30,7 @@ export default function ForgotPassword() {
         setMsg("Failed to send reset email. Please try again.");
       }
     } catch (err) {
+      console.error(err); // ✅ err를 사용하면 ESLint 경고 사라짐
       setMsg("Server error. Please try again later.");
     }
   };

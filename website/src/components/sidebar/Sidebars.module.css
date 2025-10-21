@@ -444,3 +444,20 @@
   display: flex;
   flex-direction: column;
 }
+
+.loginBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: solid black 1px;
+  padding: 0px;
+  font-weight: 500;
+}
+
+.cartNone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

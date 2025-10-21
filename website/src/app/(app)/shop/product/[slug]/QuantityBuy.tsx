@@ -67,13 +67,14 @@ export default function QuantityBuy({ productId }: { productId: string }) {
         );
       }
     } catch (err) {
+      console.error(err);
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Server error. Please try again." })
       );
     }
   };
 
-  const handleCheckout = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCheckout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!checked) {
@@ -82,7 +83,6 @@ export default function QuantityBuy({ productId }: { productId: string }) {
     }
     setPolicyError(false);
 
-    // ✅ 로그인 여부 확인
     if (!user) {
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Please sign in to continue." })
@@ -91,8 +91,30 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       return;
     }
 
-    // ✅ 로그인되어 있으면 결제 진행
-    e.currentTarget.submit();
+    try {
+      const res = await fetch("/api/checkout-single", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ productId, quantity: qty }),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.url) {
+        window.location.href = data.url; // ✅ Stripe 결제 페이지로 이동
+      } else {
+        window.dispatchEvent(
+          new CustomEvent("toast", {
+            detail: data.message || "Checkout failed.",
+          })
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      window.dispatchEvent(
+        new CustomEvent("toast", { detail: "Server error. Please try again." })
+      );
+    }
   };
 
   return (
@@ -285,11 +307,9 @@ export default function QuantityBuy({ productId }: { productId: string }) {
           ADD TO CART
         </button>
 
-        <form onSubmit={handleCheckout} action='/api/checkout' method='POST'>
-          <button className={styles.buyNow} type='submit'>
-            BUY NOW
-          </button>
-        </form>
+        <button className={styles.buyNow} onClick={handleCheckout}>
+          BUY NOW
+        </button>
       </div>
     </>
   );

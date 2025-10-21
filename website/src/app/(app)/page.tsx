@@ -2,6 +2,17 @@
 import HomeClient from "./HomeClient";
 import styles from "./page.module.css";
 
+interface FrontBanner {
+  id: string;
+  alt?: string;
+  filename: string;
+  url?: string;
+}
+
+interface FrontBannerResponse {
+  docs: FrontBanner[];
+}
+
 export default async function Home() {
   const res = await fetch(
     `${process.env.PAYLOAD_URL || process.env.NEXT_PUBLIC_API_URL}/api/front-banners?sort=createdAt`,
@@ -13,8 +24,10 @@ export default async function Home() {
   let images: string[] = [];
 
   if (res.ok) {
-    const data = await res.json();
-    images = data.docs.map((banner: any) => `/media/${banner.filename}`);
+    const data = (await res.json()) as FrontBannerResponse;
+
+    // ✅ 타입 안정성 확보
+    images = data.docs.map((banner) => `/media/${banner.filename}`);
   } else {
     console.error("❌ Failed to fetch banners:", res.status);
   }

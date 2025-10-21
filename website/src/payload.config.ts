@@ -14,6 +14,7 @@ import { FrontBanners } from "./collections/FrontBanners";
 import { LoginUsers } from "./collections/LoginUsers";
 import { ShopProducts } from "./collections/ShopProducts";
 import { ShopCategories } from "./collections/ShopCategories";
+import { ShopOrders } from "./collections/ShopOrders"
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, FrontBanners, LoginUsers, ShopProducts, ShopCategories],
+  collections: [Users, FrontBanners, LoginUsers, ShopProducts, ShopCategories, ShopOrders],
   cookiePrefix: "crml",
   
 
@@ -40,7 +41,7 @@ export default buildConfig({
   sharp,
   email: nodemailerAdapter({
     defaultFromAddress: process.env.SMTP_USER!,
-    defaultFromName: "My Website",
+    defaultFromName: "Carmel Studio",
     transportOptions: {
       host: "smtp.gmail.com",
       port: 465,

@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient.server";
 
+interface CartItem {
+  productId: string;
+  quantity: number;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const payload = await getPayloadClient();
@@ -17,19 +22,21 @@ export async function POST(req: NextRequest) {
     }
 
     // ✅ 기존 cart 가져오기
-    const existingCart = Array.isArray(user.cart) ? user.cart : [];
+    const existingCart: CartItem[] = Array.isArray(user.cart)
+      ? (user.cart as CartItem[])
+      : [];
 
     let updatedCart;
 
     if (quantity <= 0) {
       // ❌ 수량이 0 이하 → 해당 상품 제거
-      updatedCart = existingCart.filter((item: any) => item.productId !== productId);
+      updatedCart = existingCart.filter((item: CartItem) => item.productId !== productId);
     } else {
       // ✅ 기존 아이템이 있으면 수정, 없으면 추가
-      const found = existingCart.some((item: any) => item.productId === productId);
+      const found = existingCart.some((item: CartItem) => item.productId === productId);
 
       updatedCart = found
-        ? existingCart.map((item: any) =>
+        ? existingCart.map((item: CartItem) =>
             item.productId === productId ? { ...item, quantity } : item
           )
         : [...existingCart, { productId, quantity }];

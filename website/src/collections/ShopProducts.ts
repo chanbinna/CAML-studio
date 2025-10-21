@@ -21,6 +21,7 @@ export const ShopProducts: CollectionConfig = {
   admin: {
     useAsTitle: "name",   // ✅ Admin 리스트/검색에서 name을 대표 필드로 사용
     defaultColumns: ["filename", "name", "category", "price", "color", "size"],
+    group: "Shop Management",
   },
   access: {
     read: () => true,

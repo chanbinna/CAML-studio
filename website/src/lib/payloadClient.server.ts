@@ -2,7 +2,7 @@
 import payload, { getPayload } from "payload";
 import config from "@payload-config"; // ✅ Payload 설정파일 import
 
-let cached = null as any;
+let cached: typeof payload | null = null
 
 export async function getPayloadClient() {
   if (cached) return cached;

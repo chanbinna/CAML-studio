@@ -16,6 +16,7 @@ export const ShopCategories: CollectionConfig = {
   },
   admin: {
     useAsTitle: "name",   
+    group: "Shop Management",
   },
   access: {
     read: () => true,
