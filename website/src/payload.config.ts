@@ -15,6 +15,10 @@ import { LoginUsers } from "./collections/LoginUsers";
 import { ShopProducts } from "./collections/ShopProducts";
 import { ShopCategories } from "./collections/ShopCategories";
 import { ShopOrders } from "./collections/ShopOrders"
+import { Contacts } from "./collections/Contacts";
+import { Workshops } from "./collections/Workshop";
+import { Media } from "./collections/Media";
+import { WorkshopReservations } from "./collections/WorkshopReservations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -26,7 +30,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, FrontBanners, LoginUsers, ShopProducts, ShopCategories, ShopOrders],
+  collections: [Users, FrontBanners, LoginUsers, ShopProducts, ShopCategories, ShopOrders, Contacts,  Workshops, Media, WorkshopReservations],
   cookiePrefix: "crml",
   
 

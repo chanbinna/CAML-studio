@@ -1,0 +1,226 @@
+/* app/workshop/[slug]/detail.module.css */
+.wrap {
+  box-sizing: border-box;
+  padding: 95px 90px 40px 90px;
+  display: flex; /* ✅ grid → flex */
+  flex-direction: column; /* ✅ 위→아래로 배치 */
+  row-gap: 40px;
+}
+
+@media (max-width: 1024px) {
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+.description {
+  grid-column: 1 / -1;
+  letter-spacing: 0.02em;
+  font-size: 14px;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 6% 0 6%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 100;
+  margin-bottom: 6px;
+}
+
+.thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1; /* ✅ 1108.81x551.51 비율 고정 */
+  background: #f9fafb; /* 배경 (비율 틀 유지용) */
+  display: flex;
+  justify-content: center; /* ✅ 가로 중앙 */
+  align-items: center; /* ✅ 세로 중앙 */
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ✅ 원본 비율 유지 (잘리지 않음) */
+  object-position: center; /* ✅ 항상 중앙 정렬 */
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 40%;
+  margin: 0 auto;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between; /* ✅ 양쪽 끝으로 배치 */
+  align-items: center; /* ✅ 세로 가운데 정렬 */
+  width: 100%; /* ✅ 부모 기준으로 가득 */
+}
+
+.priceRow p {
+  margin: 0; /* ✅ 기본 마진 제거 */
+  font-size: 13px;
+}
+
+.price {
+  color: #374151;
+}
+
+.descText {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #444;
+  margin-top: 10px;
+}
+
+.scheduleBox {
+  margin-top: 24px;
+}
+
+.scheduleSelect {
+  font-size: 13px;
+  border-radius: 0;
+  background-color: white;
+  cursor: pointer;
+  color: #333;
+  transition: border-color 0.2s ease;
+  border-color: black;
+  padding: 1px;
+  width: 180px;
+}
+
+.scheduleSelect:focus {
+  outline: none; /* 파란 테두리 제거 */
+  box-shadow: none; /* 그림자 제거 (브라우저별 대응) */
+  border-color: black; /* 클릭해도 같은 색 유지 */
+}
+
+.input {
+  border: none;
+  border-bottom: 1px solid #d8d7d5; /* 밑줄 */
+  padding: 3px 0;
+  font-size: 13px;
+  outline: none;
+  background: transparent; /* 배경 투명 */
+  transition: border-color 0.3s;
+  width: 180px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #000;
+  margin: 10px 0;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.buy {
+  padding: 10px 12px;
+  width: 250px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  font-size: 12px;
+  margin-bottom: 100px;
+}
+
+.buy:hover {
+  opacity: 0.92;
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #666;
+  font-size: 13px;
+  height: 100%;
+}
+
+.accordionContent {
+  margin-top: -5px;
+  font-size: 11.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.3s ease;
+  margin-bottom: 5px;
+  padding-left: 20px;
+}
+
+.accordionContent ul {
+  list-style-type: disc; /* 기본 • bullet */
+  margin-left: 1rem; /* 🔹 기본보다 덜 들여쓰기 (기본 2.5rem 정도) */
+  padding-left: 0;
+}
+
+.accordionContent li {
+  margin-bottom: 2px;
+}
+
+.accordionContent.open {
+  max-height: 500px; /* 예상보다 약간 크게 (안쪽 내용 다 보이게) */
+  opacity: 1;
+}
+
+.policy {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding-left: 20px;
+}
+
+.expandWrap {
+  position: relative;
+  margin-right: 12px;
+}
+
+/* 기본 상태 */
+.expand {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 17px;
+  line-height: 1;
+  transition: transform 0.25s ease;
+  user-select: none;
+}
+
+/* + 회전 효과 */
+.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.hide {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.errorText {
+  color: #d32f2f;
+  font-size: 12px;
+}

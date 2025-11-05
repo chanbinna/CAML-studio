@@ -1,10 +1,17 @@
 import { CollectionConfig } from "payload";
 
+
 export const LoginUsers: CollectionConfig = {
   slug: "login-users",
   admin: {
     group: "User Management",
   },
+  access: {
+  read: ({ req }) => !!req.user, // 로그인한 유저만 읽기 가능
+  create: () => true,            // ✅ 누구나 회원가입 가능
+  update: ({ req }) => !!req.user,
+  delete: ({ req }) => !!req.user,
+},
 
   auth: {
     useAPIKey: false,
@@ -54,6 +61,23 @@ export const LoginUsers: CollectionConfig = {
         { name: "total", type: "number" },
         {
           name: "purchasedAt",
+          type: "date",
+          defaultValue: () => new Date(),
+        },
+      ],
+    },
+
+    {
+      name: "workshops",
+      type: "array",
+      label: "Workshop Reservations",
+      fields: [
+        { name: "workshopId", type: "text", required: true },
+        { name: "workshopName", type: "text", required: true },
+        { name: "schedule", type: "text", required: true },
+        { name: "fee", type: "number", required: true },
+        {
+          name: "reservedAt",
           type: "date",
           defaultValue: () => new Date(),
         },

@@ -10,17 +10,18 @@ export type Category = {
 };
 
 export default function LeftSidebarClient({
-  categories,
+  shopCategories,
+  workshopCategories,
   styles,
 }: {
-  categories: Category[];
+  shopCategories: Category[];
+  workshopCategories: Category[];
   styles: { [key: string]: string };
 }) {
   const { leftView, closeAll, isAnyOpen } = useSidebar();
 
   return (
     <>
-      {/* Overlay */}
       {isAnyOpen && (
         <div
           className={`${styles.overlay} ${isAnyOpen ? styles.open : ""}`}
@@ -29,7 +30,6 @@ export default function LeftSidebarClient({
         />
       )}
 
-      {/* Panel */}
       <aside
         data-sidebar-panel
         className={`${styles.panel} ${styles.left} ${
@@ -44,7 +44,7 @@ export default function LeftSidebarClient({
         {leftView === "shop" && (
           <div
             className={`${styles.content} ${
-              categories.length ? styles.loaded : styles.loading
+              shopCategories.length ? styles.loaded : styles.loading
             }`}
           >
             <ul>
@@ -53,7 +53,7 @@ export default function LeftSidebarClient({
                   SHOP ALL
                 </Link>
               </li>
-              {categories.map((cat) => (
+              {shopCategories.map((cat) => (
                 <li key={cat.id}>
                   <Link href={`/shop/category/${cat.slug}`} onClick={closeAll}>
                     {cat.name.toUpperCase()}
@@ -66,28 +66,24 @@ export default function LeftSidebarClient({
 
         {/* WORKSHOP MENU */}
         {leftView === "workshop" && (
-          <div className={styles.content}>
+          <div
+            className={`${styles.content} ${
+              workshopCategories.length ? styles.loaded : styles.loading
+            }`}
+          >
             <ul>
               <li>
-                <Link href='/workshop/' onClick={closeAll}>
+                <Link href='/workshop' onClick={closeAll}>
                   ALL WORKSHOP
                 </Link>
               </li>
-              <li>
-                <Link href='/workshop/lacquer' onClick={closeAll}>
-                  LACQUER
-                </Link>
-              </li>
-              <li>
-                <Link href='/workshop/kintsugi' onClick={closeAll}>
-                  KINTSUGI
-                </Link>
-              </li>
-              <li>
-                <Link href='/workshop/marbling' onClick={closeAll}>
-                  MARBLING
-                </Link>
-              </li>
+              {workshopCategories.map((cat) => (
+                <li key={cat.id}>
+                  <Link href={`/workshop/${cat.slug}`} onClick={closeAll}>
+                    {cat.name.toUpperCase()}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         )}

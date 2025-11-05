@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       ? `${baseUrl}/media/products/${product.filename}`
       : undefined;
 
+
     // ✅ Stripe Checkout 세션 생성
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -74,7 +75,9 @@ export async function POST(req: NextRequest) {
           quantity: quantity || 1,
         },
       ],
-      success_url: `${baseUrl}/api/checkout-success`,
+      
+
+      success_url: `${baseUrl}/api/checkout-success-single?productId=${productId}&quantity=${quantity}`,
       cancel_url: `${baseUrl}/cancel`,
       metadata: {
         userId: user.id,

@@ -1,27 +1,73 @@
 .container {
-  padding: 40px;
-  padding-top: 135px;
-  max-width: 1200px;
+  box-sizing: border-box;
+  padding: 95px 90px 0 90px;
   margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 120px;
+  text-align: center;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
+  margin-top: 120px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
 }
 
 .description {
-  font-size: 1.1rem;
+  font-size: 14px;
+  color: #555;
   line-height: 1.6;
-  color: #666;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
-.content {
-  background-color: #f9f9f9;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* ✅ 한 줄에 3개씩 */
+  gap: 32px;
+  justify-items: center;
+  cursor: pointer;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 2 / 1; /* ✅ 고정 비율 (1108.81:551.51 ≈ 2:1) */
+  object-fit: cover; /* ✅ 이미지 꽉 채우기 (잘려도 괜찮음) */
+  object-position: center; /* ✅ 항상 중앙 기준 */
+  margin-bottom: 12px;
+  transition: transform 0.2s ease;
+}
+
+.image:hover {
+  transform: scale(1.03);
+}
+
+.name {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #222;
+}
+
+.card:link,
+.card:visited,
+.card:hover,
+.card:active {
+  text-decoration: none !important;
+  color: inherit !important;
 }

@@ -79,3 +79,17 @@
   color: #bbbbbb; /* light gray */
   opacity: 1; /* ensure full color */
 }
+
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: -20px;
+}
+
+.success {
+  color: #2563eb;
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: -20px;
+}
