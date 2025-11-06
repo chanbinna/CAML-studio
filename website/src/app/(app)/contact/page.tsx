@@ -53,6 +53,7 @@ export default function Contact() {
         message: "",
       });
     } catch (err) {
+      console.error(err);
       setError("Server error. Please try again later.");
     }
   };

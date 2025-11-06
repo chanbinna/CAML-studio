@@ -13,13 +13,10 @@ type Workshop = {
   scheduleOptions?: { label: string }[];
 };
 
-export default async function WorkshopDetail({
-  params,
-}: {
-  params: { slug: string };
+export default async function WorkshopDetailPage(props: {
+  params: Promise<{ slug: string }>;
 }) {
-  // ✅ Next.js 15 버그 회피용 (params를 Promise.resolve로 감싸면 에러 사라짐)
-  const { slug } = await Promise.resolve(params);
+  const { slug } = await props.params;
 
   const base = process.env.PAYLOAD_URL || process.env.NEXT_PUBLIC_API_URL;
 
