@@ -121,7 +121,7 @@ export default function OrderDetailPage() {
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
                   img.src = "/media/products/placeholder.png";
-                }} 
+                }}
               />
               <div style={{ flex: 1 }}>
                 <p style={{ fontWeight: 600 }}>

@@ -5,6 +5,16 @@
   margin-top: 120px;
 }
 
+.container2 {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 0 20px;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .title {
   font-size: 19px;
   text-align: center;
@@ -106,4 +116,13 @@
 .workshopName {
   font-weight: 600;
   margin-bottom: 5px;
+}
+
+.workshopimage {
+  aspect-ratio: 2 / 1; /* ✅ 고정 비율 (1108.81:551.51 ≈ 2:1) */
+  object-fit: cover; /* ✅ 이미지 꽉 채우기 (잘려도 괜찮음) */
+  object-position: center; /* ✅ 항상 중앙 기준 */
+  width: 80%;
+  display: block;
+  margin: 0 auto;
 }

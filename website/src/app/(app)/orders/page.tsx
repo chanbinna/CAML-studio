@@ -145,7 +145,12 @@ export default function OrdersPage() {
               {workshops
                 .slice(0, visibleWorkshops)
                 .map((ws: any, i: number) => (
-                  <li key={i} className={styles.card}>
+                  <li
+                    key={i}
+                    className={styles.card}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => router.push(`/orders/workshop/${ws.id}`)} // ✅ 수정 포인트
+                  >
                     <p className={styles.workshopName}>{ws.workshopName}</p>
                     <p>Schedule: {ws.schedule}</p>
                     <p>Fee: ${ws.fee}</p>

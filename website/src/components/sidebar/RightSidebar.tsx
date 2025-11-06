@@ -117,18 +117,43 @@ function LoginPanel() {
 
 function SearchPanel() {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  // 🔎 디바운스 검색 (입력 300ms 후에 API 요청)
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults(null);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setResults(data);
+      } catch {
+        setResults(null);
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   return (
-    <div className={styles.content}>
+    <div className={styles.content2}>
+      {/* 검색창 */}
       <div className={styles.searchbar}>
         <div className={styles.field}>
           <input
             id='search'
             type='text'
-            placeholder='Search...'
+            placeholder='Search products, workshops...'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            required
           />
           {query && (
             <button
@@ -144,6 +169,91 @@ function SearchPanel() {
         <button>
           <TfiSearch size={17} />
         </button>
+      </div>
+
+      {/* 결과 */}
+      <div className={styles.searchResults}>
+        {!query ? (
+          <p className={styles.placeholder}>Start typing to search...</p>
+        ) : loading ? (
+          <p className={styles.loadingText}>Searching...</p>
+        ) : results ? (
+          <>
+            {/* 🛍️ Products */}
+            {results.products?.length > 0 && (
+              <div className={styles.resultSection}>
+                <h3 className={styles.resultTitle}>Products</h3>
+                <ul className={styles.resultList}>
+                  {results.products.map((p: any) => (
+                    <li key={p.id}>
+                      <a
+                        href={`/shop/product/${p.slug}`}
+                        className={styles.resultItem}
+                      >
+                        <span>{p.name}</span>
+                        <small className={styles.resultSub}>
+                          {p.category?.name || "Uncategorized"}
+                        </small>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 📂 Categories */}
+            {results.categories?.length > 0 && (
+              <div className={styles.resultSection}>
+                <h3 className={styles.resultTitle}>Shop Categories</h3>
+                <ul className={styles.resultList}>
+                  {results.categories.map((c: any) => (
+                    <li key={c.id}>
+                      <a
+                        href={`/shop?category=${c.slug}`}
+                        className={styles.resultItem}
+                      >
+                        <span>{c.name}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 🎨 Workshops */}
+            {results.workshops?.length > 0 && (
+              <div className={styles.resultSection}>
+                <h3 className={styles.resultTitle}>Workshops</h3>
+                <ul className={styles.resultList}>
+                  {results.workshops.map((w: any) => (
+                    <li key={w.id}>
+                      <a
+                        href={`/workshop/${w.slug}`}
+                        className={styles.resultItem}
+                      >
+                        <span>
+                          {w.name || w.title || w.workshopName || "Untitled"}
+                        </span>
+                        {w.schedule && (
+                          <small className={styles.resultSub}>
+                            {w.schedule}
+                          </small>
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 아무 결과도 없을 때 */}
+            {results.products?.length === 0 &&
+              results.workshops?.length === 0 &&
+              results.categories?.length === 0 && (
+                <p className={styles.noResult}>No results found.</p>
+              )}
+          </>
+        ) : null}
       </div>
     </div>
   );
