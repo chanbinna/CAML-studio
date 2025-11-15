@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import NavbarMobile from "@/components/NavbarMobile";
 import Footer from "@/components/Footer";
 import { SidebarProvider } from "@/components/sidebar/SidebarProvider";
 import LeftSidebar from "@/components/sidebar/LeftSidebar";
@@ -46,6 +47,7 @@ export default function RootLayout({
                 }}
               >
                 <Navbar />
+                <NavbarMobile />
                 <main style={{ flex: 1 }}>{children}</main>
                 <Footer />
               </div>

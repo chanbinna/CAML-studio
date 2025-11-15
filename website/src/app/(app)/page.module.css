@@ -85,3 +85,18 @@
     transform: translateY(-10px);
   }
 }
+
+@media (max-width: 768px) {
+  .main {
+    padding-top: 50px;
+  }
+
+  .container {
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  .grayBox {
+    height: calc(100vh - 50px - 20px);
+  }
+}
