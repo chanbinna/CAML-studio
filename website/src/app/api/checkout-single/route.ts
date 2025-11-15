@@ -16,7 +16,7 @@ interface Product {
 
 export async function POST(req: NextRequest) {
   try {
-    const { productId, quantity } = await req.json();
+    const { productId, quantity, returnUrl } = await req.json();
     const payload = await getPayloadClient();
 
     // ✅ 로그인 확인
@@ -61,6 +61,25 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
 
+      billing_address_collection: "required", 
+      
+      shipping_address_collection: {
+        allowed_countries: ["US"],
+      },
+
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            display_name: "Standard Shipping",
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,   // 무료배송이면 0
+              currency: "usd",
+            },
+          },
+        },
+      ],
+
       line_items: [
         {
           price_data: {
@@ -77,8 +96,8 @@ export async function POST(req: NextRequest) {
       ],
       
 
-      success_url: `${baseUrl}/api/checkout-success-single?productId=${productId}&quantity=${quantity}`,
-      cancel_url: `${baseUrl}/cancel`,
+      success_url: `${baseUrl}/api/checkout-success-single?session_id={CHECKOUT_SESSION_ID}&productId=${productId}&quantity=${quantity}`,
+      cancel_url: returnUrl || `${baseUrl}/shop`,
       metadata: {
         userId: user.id,
         productId,

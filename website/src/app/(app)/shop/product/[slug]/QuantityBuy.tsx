@@ -6,17 +6,29 @@ import styles from "./detail.module.css";
 import { useSidebar } from "../../../../../components/sidebar/SidebarProvider";
 import { useCart } from "@/components/CartProvider";
 
-export default function QuantityBuy({ productId }: { productId: string }) {
+export default function QuantityBuy({
+  productId,
+  stock,
+}: {
+  productId: string;
+  stock: number;
+}) {
   const [qty, setQty] = useState(1);
   const [checked, setChecked] = useState(false);
   const [policyError, setPolicyError] = useState(false);
   const [openCare, setOpenCare] = useState(false);
   const [openReturn, setOpenReturn] = useState(false);
   const [openPolicy, setOpenPolicy] = useState(false);
+
+  const [loadingAdd, setLoadingAdd] = useState(false);
+  const [loadingBuy, setLoadingBuy] = useState(false);
+
   const { refreshCart } = useCart();
 
   const { user } = useAuth(); // ✅ 로그인 여부 확인용
   const { openRight } = useSidebar();
+
+  const isSoldOut = stock <= 0;
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -36,6 +48,8 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       openRight("login");
       return;
     }
+
+    setLoadingAdd(true);
 
     // 3️⃣ 서버에 장바구니 추가 요청
     try {
@@ -71,6 +85,8 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Server error. Please try again." })
       );
+    } finally {
+      setLoadingAdd(false); // 🔥 종료
     }
   };
 
@@ -91,12 +107,18 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       return;
     }
 
+    setLoadingBuy(true);
+
     try {
       const res = await fetch("/api/checkout-single", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ productId, quantity: qty }),
+        body: JSON.stringify({
+          productId,
+          quantity: qty,
+          returnUrl: window.location.href,
+        }),
       });
       const data = await res.json();
 
@@ -114,6 +136,8 @@ export default function QuantityBuy({ productId }: { productId: string }) {
       window.dispatchEvent(
         new CustomEvent("toast", { detail: "Server error. Please try again." })
       );
+    } finally {
+      setLoadingBuy(false); // 🔥 종료
     }
   };
 
@@ -127,6 +151,7 @@ export default function QuantityBuy({ productId }: { productId: string }) {
           onClick={() => setQty((q) => Math.max(1, q - 1))}
           className={styles.qtyBtn}
           aria-label='Decrease quantity'
+          disabled={isSoldOut}
         >
           –
         </button>
@@ -136,6 +161,7 @@ export default function QuantityBuy({ productId }: { productId: string }) {
           onClick={() => setQty((q) => q + 1)}
           className={styles.qtyBtn}
           aria-label='Increase quantity'
+          disabled={isSoldOut}
         >
           +
         </button>
@@ -303,12 +329,20 @@ export default function QuantityBuy({ productId }: { productId: string }) {
 
       {/* ✅ 버튼 그룹 */}
       <div className={styles.buttonGroup}>
-        <button className={styles.buy} onClick={handleAddToCart}>
-          ADD TO CART
+        <button
+          className={styles.buy}
+          onClick={handleAddToCart}
+          disabled={isSoldOut || loadingAdd}
+        >
+          {isSoldOut ? "SOLD OUT" : loadingAdd ? "ADDING..." : "ADD TO CART"}
         </button>
 
-        <button className={styles.buyNow} onClick={handleCheckout}>
-          BUY NOW
+        <button
+          className={styles.buyNow}
+          onClick={handleCheckout}
+          disabled={isSoldOut || loadingBuy}
+        >
+          {isSoldOut ? "SOLD OUT" : loadingBuy ? "PROCESSING..." : "BUY NOW"}
         </button>
       </div>
     </>

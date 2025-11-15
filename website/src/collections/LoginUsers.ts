@@ -64,6 +64,19 @@ export const LoginUsers: CollectionConfig = {
           type: "date",
           defaultValue: () => new Date(),
         },
+
+        {
+          name: "shippingAddress",
+          type: "group",
+          fields: [
+            { name: "line1", type: "text" },
+            { name: "line2", type: "text" },
+            { name: "city", type: "text" },
+            { name: "state", type: "text" },
+            { name: "postal_code", type: "text" },
+            { name: "country", type: "text" },
+          ],
+        },
       ],
     },
 

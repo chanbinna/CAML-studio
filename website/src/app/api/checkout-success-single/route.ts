@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient.server";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(req: NextRequest) {
   const payload = await getPayloadClient();
@@ -10,6 +12,20 @@ export async function GET(req: NextRequest) {
 
   const { user } = await payload.auth({ headers: req.headers });
   if (!user) return NextResponse.redirect(new URL("/", req.url));
+
+  const sessionId = searchParams.get("session_id");
+  if (!sessionId) throw new Error("Missing session ID");
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: [
+      "customer_details",
+      "payment_intent",
+      "payment_intent.charges.data.billing_details"
+    ],
+  });
+
+  const address = session.customer_details?.address;
+  console.log(address);
 
   try {
     // ✅ slug / id 둘 다 지원
@@ -38,6 +54,15 @@ export async function GET(req: NextRequest) {
       items: [{ productId, quantity, price }],
       total: price * quantity,
       purchasedAt: new Date(),
+
+      shippingAddress: {
+        line1: address?.line1 || "",
+        line2: address?.line2 || "",
+        city: address?.city || "",
+        state: address?.state || "",
+        postal_code: address?.postal_code || "",
+        country: address?.country || "",
+      },
     };
 
     // ✅ login-users 컬렉션에 저장
@@ -60,10 +85,41 @@ export async function GET(req: NextRequest) {
         total: order.total,
         status: "paid",
         purchasedAt: order.purchasedAt,
+        shippingAddress: {
+          line1: address?.line1 || "",
+          line2: address?.line2 || "",
+          city: address?.city || "",
+          state: address?.state || "",
+          postal_code: address?.postal_code || "",
+          country: address?.country || "",
+        },
       },
     });
 
     console.log(`✅ Single checkout order stored: ${order.orderId}`);
+
+    // 재고 차감
+    const newStock = Math.max(0, (product.stock || 0) - quantity);
+
+    await payload.update({
+      collection: "shopProducts",
+      id: product.id,
+      data: {
+        stock: newStock,
+        inventory: [
+          ...(product.inventory || []),
+          {
+            quantity: -quantity,
+            addedAt: new Date(),
+            note: `Purchased by ${user.name || "customer"} (${user.email})`,
+          }
+        ]
+      }
+    });
+
+    console.log(
+      `📦 Stock updated for ${product.name}: ${product.stock} → ${newStock}`
+    );
 
     // ✅ 이메일 알림 (유저 + 관리자)
     try {
@@ -85,6 +141,15 @@ export async function GET(req: NextRequest) {
                 <p style="margin:4px 0;"><strong>Order ID:</strong> ${order.orderId}</p>
                 <p style="margin:4px 0;"><strong>Total:</strong> $${order.total.toFixed(2)}</p>
                 <p style="margin:4px 0;"><strong>Date:</strong> ${order.purchasedAt.toLocaleString()}</p>
+                <div style="margin-top:12px;">
+                  <p style="margin:4px 0; font-weight:600;">Shipping Address:</p>
+                  <p style="margin:4px 0; font-size:13px; line-height:1.4;">
+                    ${address?.line1 || ""}<br/>
+                    ${address?.line2 || ""}<br/>
+                    ${address?.city || ""}, ${address?.state || ""} ${address?.postal_code || ""}<br/>
+                    ${address?.country || ""}
+                  </p>
+                </div>
               </div>
 
               <table style="width:100%; border-collapse:collapse; font-size:13px;">
@@ -103,6 +168,7 @@ export async function GET(req: NextRequest) {
                   </tr>
                 </tbody>
               </table>
+
 
               <div style="text-align:center; margin-top:36px;">
                 <a href="${process.env.NEXT_PUBLIC_API_URL}/orders"
@@ -128,6 +194,14 @@ export async function GET(req: NextRequest) {
             <p><strong>Customer:</strong> ${user.email}</p>
             <p><strong>Order ID:</strong> ${order.orderId}</p>
             <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+
+            <h4 style="margin-top:24px;">Shipping Address</h4>
+            <p style="font-size:14px; line-height:1.5;">
+              ${address?.line1 || ""}<br/>
+              ${address?.line2 || ""}<br/>
+              ${address?.city || ""}, ${address?.state || ""} ${address?.postal_code || ""}<br/>
+              ${address?.country || ""}
+            </p>
 
             <h4 style="margin-top:24px;">Items</h4>
             <ul style="padding-left:20px; font-size:13px;">

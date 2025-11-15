@@ -266,6 +266,8 @@ function CartPanel() {
   const { openRight } = useSidebar();
   const { cart, refreshCart, updateCartLocally, loading } = useCart();
 
+  const [processing, setProcessing] = useState(false);
+
   if (!user) {
     return (
       <div className={styles.content}>
@@ -331,26 +333,53 @@ function CartPanel() {
 
   const handleCheckout = async () => {
     try {
+      setProcessing(true);
+
       const currentUrl = window.location.href;
 
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ cancelUrl: currentUrl }),
+        body: JSON.stringify({
+          cancelUrl: currentUrl,
+        }),
       });
 
       const data = await res.json();
 
-      if (res.ok && data.url) {
-        window.location.href = data.url; // ✅ Stripe 결제창으로 이동
-      } else {
-        console.error("Checkout failed:", data.message);
-        alert("Checkout failed. Please try again.");
+      // ❗ 실패 시 → alert 대신 toast 띄우기
+      if (!res.ok) {
+        setProcessing(false);
+
+        if (data.soldOut?.length) {
+          window.dispatchEvent(
+            new CustomEvent("toast", {
+              detail: `Some items are out of stock: ${data.soldOut.join(", ")}`,
+            })
+          );
+        } else {
+          window.dispatchEvent(
+            new CustomEvent("toast", {
+              detail: data.message || "Checkout failed.",
+            })
+          );
+        }
+        return;
       }
+
+      // 성공 → Stripe 이동
+      window.location.href = data.url;
     } catch (err) {
       console.error("❌ Checkout error:", err);
-      alert("Server error. Please try again later.");
+
+      window.dispatchEvent(
+        new CustomEvent("toast", {
+          detail: "Server error. Please try again later.",
+        })
+      );
+
+      setProcessing(false);
     }
   };
 
@@ -408,8 +437,12 @@ function CartPanel() {
       </div>
 
       <div className={styles.buttonBack}>
-        <button className={styles.checkoutBtn} onClick={handleCheckout}>
-          PROCEED TO CHECKOUT
+        <button
+          className={styles.checkoutBtn}
+          onClick={handleCheckout}
+          disabled={processing}
+        >
+          {processing ? "PROCESSING..." : "PROCEED TO CHECKOUT"}
         </button>
       </div>
     </div>

@@ -8,7 +8,6 @@ export default function OrderSuccess() {
   const [order, setOrder] = useState<any>(null);
 
   useEffect(() => {
-    // ✅ 최근 주문 가져오기 (로그인 유저 기준)
     const fetchOrder = async () => {
       try {
         const res = await fetch("/api/login-users/me", {
@@ -33,6 +32,8 @@ export default function OrderSuccess() {
     );
   }
 
+  const addr = order.shippingAddress || {};
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Payment Successful!</h1>
@@ -40,6 +41,7 @@ export default function OrderSuccess() {
         Thank you for your purchase at <strong>CRML Studio</strong>.
       </p>
 
+      {/* Order Summary */}
       <div className={styles.card}>
         <p>
           <strong>Order ID:</strong> {order.orderId}
@@ -50,8 +52,26 @@ export default function OrderSuccess() {
         <p>
           <strong>Date:</strong> {new Date(order.purchasedAt).toLocaleString()}
         </p>
+
+        {order.shippingAddress && (
+          <div style={{ marginTop: "12px" }}>
+            <p>
+              <strong>Shipping Address:</strong>
+            </p>
+            <p>{order.shippingAddress.line1}</p>
+            {order.shippingAddress.line2 && (
+              <p>{order.shippingAddress.line2}</p>
+            )}
+            <p>
+              {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
+              {order.shippingAddress.postal_code}
+            </p>
+            <p>{order.shippingAddress.country}</p>
+          </div>
+        )}
       </div>
 
+      {/* Items */}
       <div className={styles.items}>
         {order.items.map((item: any, i: number) => (
           <div key={i} className={styles.item}>

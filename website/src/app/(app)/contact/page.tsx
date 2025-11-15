@@ -13,6 +13,7 @@ export default function Contact() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -24,10 +25,12 @@ export default function Contact() {
     e.preventDefault();
     setError("");
     setSuccess(false);
+    setProcessing(true); // ⬅️ 로딩 시작
 
-    // ✅ 필수 입력 확인
+    // 필수 값 확인
     if (!form.firstName || !form.lastName || !form.email || !form.message) {
       setError("Please fill in all required fields.");
+      setProcessing(false); // ⬅️ 로딩 종료
       return;
     }
 
@@ -41,6 +44,7 @@ export default function Contact() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Something went wrong.");
+        setProcessing(false);
         return;
       }
 
@@ -55,6 +59,8 @@ export default function Contact() {
     } catch (err) {
       console.error(err);
       setError("Server error. Please try again later.");
+    } finally {
+      setProcessing(false); // ⬅️ 무조건 로딩 종료
     }
   };
 
@@ -140,8 +146,12 @@ export default function Contact() {
             </p>
           )}
 
-          <button className={styles.submitButton} type='submit'>
-            SUBMIT
+          <button
+            className={styles.submitButton}
+            type='submit'
+            disabled={processing}
+          >
+            {processing ? "PROCESSING..." : "SUBMIT"}
           </button>
         </form>
       </div>

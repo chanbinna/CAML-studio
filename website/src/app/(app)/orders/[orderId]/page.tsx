@@ -33,7 +33,7 @@ export default function OrderDetailPage() {
         if (found) {
           const detailedItems = await Promise.all(
             found.items.map(async (item: any) => {
-              const res = await fetch(`/api/shopProducts/${item.productId}`);
+              const res = await fetch(`/api/shop-products/${item.productId}`);
               if (!res.ok) throw new Error("Product not found");
 
               const data = await res.json();
@@ -99,6 +99,19 @@ export default function OrderDetailPage() {
           day: "numeric",
         })}
       </p>
+
+      {order.shippingAddress && (
+        <div style={{ marginTop: "12px", marginBottom: "10px" }}>
+          <p>Shipping Address:</p>
+          <p>{order.shippingAddress.line1}</p>
+          {order.shippingAddress.line2 && <p>{order.shippingAddress.line2}</p>}
+          <p>
+            {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
+            {order.shippingAddress.postal_code}
+          </p>
+          <p>{order.shippingAddress.country}</p>
+        </div>
+      )}
 
       <ul className={styles.list} style={{ marginTop: "20px" }}>
         {items.map((item) => (

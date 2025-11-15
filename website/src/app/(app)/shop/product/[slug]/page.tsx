@@ -12,6 +12,7 @@ type Product = {
   price?: number;
   color?: string;
   size?: string;
+  stock?: number;
   category?: { name: string };
 };
 
@@ -89,7 +90,7 @@ export default async function ProductDetail({
           </div>
         )}
 
-        <QuantityBuy productId={product.slug} />
+        <QuantityBuy productId={product.slug} stock={product.stock ?? 0} />
       </div>
     </div>
   );

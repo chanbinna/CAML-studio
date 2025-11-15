@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getPayloadClient } from "@/lib/payloadClient.server";
+import { getPayloadClient } from "@/lib/payloadClient.server";  
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -85,12 +85,77 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "No valid items for checkout" }, { status: 400 });
     }
 
+    const soldOutItems: string[] = [];
+
+    for (const item of existingCart) {
+      let product;
+
+      try {
+        const result = await payload.findByID({
+          collection: "shopProducts",
+          id: item.productId,
+        });
+        product = result.data;
+      } catch {
+        const res = await payload.find({
+          collection: "shopProducts",
+          where: { slug: { equals: item.productId } },
+        });
+        product = res.docs?.[0];
+      }
+
+      if (!product) continue;
+
+      const currentStock = Number(product.stock || 0);
+
+      // ❗ 장바구니 수량보다 재고가 부족하면 추가
+      if (currentStock < item.quantity) {
+        soldOutItems.push(product.name || item.productId);
+      }
+    }
+
+    // ❗ 만약 하나라도 재고 부족이면 Stripe 세션 생성 중단
+    if (soldOutItems.length > 0) {
+      return NextResponse.json(
+        {
+          message: "Some items are sold out",
+          soldOut: soldOutItems,
+        },
+        { status: 400 }
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+
+      // 🔥 추가: 주소 필수 수집
+      billing_address_collection: "required",
+
+      // 🔥 추가: 배송 주소 수집
+      shipping_address_collection: {
+        allowed_countries: ["US"],
+      },
+
+      // 🔥 추가: 배송 옵션 (표준 배송)
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            display_name: "Standard Shipping",
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "usd",
+            },
+          },
+        },
+      ],
+
       line_items: validItems,
-      success_url: `${baseUrl}/api/checkout-success`,
-      cancel_url: cancelUrl || `${baseUrl}`,
+
+      success_url: `${baseUrl}/api/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${baseUrl}/shop`,
+
       metadata: { userId: user.id },
     });
 

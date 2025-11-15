@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
   try {
-    const { workshopId, scheduleLabel } = await req.json();
+    const { workshopId, scheduleLabel, cancelUrl } = await req.json();
     const payload = await getPayloadClient();
 
     // ✅ 로그인 확인
@@ -87,7 +87,7 @@ if (existing.docs.length > 0) {
         },
       ],
       success_url: `${baseUrl}/api/checkout-success-workshop?workshopId=${workshopId}&scheduleLabel=${encodeURIComponent(scheduleLabel)}`,
-      cancel_url: `${baseUrl}/cancel`,
+      cancel_url: cancelUrl || `${baseUrl}/workshop`,
       metadata: {
         userId: user.id,
         workshopId,

@@ -9,7 +9,7 @@ const productCache: Record<string, ProductInfo> = {};
 async function fetchProductInfo(id: string): Promise<ProductInfo> {
   if (productCache[id]) return productCache[id];
   try {
-    const res = await fetch(`/api/shopProducts/${id}`);
+    const res = await fetch(`/api/shop-products/${id}`);
     if (!res.ok) throw new Error("Product not found");
     const data = await res.json();
     const doc = data?.doc;

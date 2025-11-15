@@ -56,6 +56,7 @@ export default function WorkshopDetailClient({
         body: JSON.stringify({
           workshopId: workshop.id,
           scheduleLabel: selectedSchedule,
+          cancelUrl: window.location.href,
         }),
       });
 

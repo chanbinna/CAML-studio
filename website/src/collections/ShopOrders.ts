@@ -33,6 +33,20 @@ export const ShopOrders: CollectionConfig = {
       name: "userEmail",
       type: "text",
     },
+
+    {
+      name: "shippingAddress",
+      type: "group",
+      fields: [
+        { name: "line1", type: "text" },
+        { name: "line2", type: "text" },
+        { name: "city", type: "text" },
+        { name: "state", type: "text" },
+        { name: "postal_code", type: "text" },
+        { name: "country", type: "text" },
+      ],
+    },
+
     {
       name: "items",
       type: "array",
