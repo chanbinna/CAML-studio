@@ -78,3 +78,32 @@
 .cornerLogoImage:hover {
   opacity: 1;
 }
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 20px 20px 20px;
+  }
+
+  .footerSection ul li a {
+    font-size: 12px;
+  }
+
+  .footerSection ul {
+    gap: 5px;
+  }
+
+  .sidebar {
+    /* border-left: solid 1px #dddddd; */
+    padding-left: 0px;
+  }
+
+  .footerBottom p {
+    font-size: 0.6rem;
+  }
+
+  .cornerLogo {
+    bottom: 3px;
+    right: 20px;
+    z-index: 10;
+  }
+}

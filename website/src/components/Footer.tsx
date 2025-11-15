@@ -47,10 +47,10 @@ export default function Footer() {
         <div className={styles.cornerLogo}>
           <Link href='/'>
             <Image
-              src='/logo2.png'
+              src='/logo3.png'
               alt='CRML Studio Logo'
-              width={70}
-              height={40}
+              width={60}
+              height={42}
               className={styles.cornerLogoImage}
             />
           </Link>

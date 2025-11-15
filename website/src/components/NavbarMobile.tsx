@@ -32,7 +32,7 @@ export default function NavbarMobile() {
 
       {/* 가운데 로고 */}
       <div className={styles.mobileLogo}>
-        <Image src='/logo2.png' alt='Logo' width={102} height={52} priority />
+        <Image src='/logo3.png' alt='Logo' width={90} height={62} priority />
       </div>
 
       {/* 오른쪽 아이콘들 */}

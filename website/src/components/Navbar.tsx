@@ -62,10 +62,10 @@ export default function Navbar() {
         <div className={styles.logoCenter}>
           <Link href='/'>
             <Image
-              src='/logo2.png'
+              src='/logo3.png'
               alt='Website Logo'
-              width={152.76}
-              height={83.22}
+              width={150}
+              height={104}
               quality={100}
               priority
               className={styles.logoImage}
