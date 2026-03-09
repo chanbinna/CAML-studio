@@ -545,3 +545,113 @@
 .content2 a:hover {
   background-size: 100% 1px;
 }
+
+/* Each top-level menu item */
+.mobileMenuItem {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row with label + plus button */
+.menuRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* The + / − button */
+.expandBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0 4px;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+/* Rotate + into × when expanded */
+.expandBtn.expanded {
+  transform: rotate(45deg);
+}
+
+/* Override the global .content ul rule for the inline submenu */
+.content ul.inlineSubMenu {
+  gap: 15px;
+  padding: 0;
+  padding-left: 10px;
+  overflow: hidden; /* ← required for max-height animation */
+  max-height: 0; /* ← closed by default */
+  opacity: 0; /* ← hidden by default */
+  transition:
+    max-height 0.3s ease,
+    opacity 0.25s ease;
+  margin-bottom: 0;
+}
+
+.content ul.inlineSubMenuOpen {
+  max-height: 500px;
+  opacity: 1;
+  padding-left: 12px;
+  padding-top: 14px;
+  margin-bottom: 10px;
+}
+
+.content ul.inlineSubMenu a {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  /* 1. 패널을 전체 화면으로 확장 */
+  aside.panel.left {
+    width: 100%; /* 가로 전체 */
+    max-width: none; /* min() 함수로 잡혀있던 최대 너비 해제 */
+    height: 100vh; /* 세로 전체 */
+  }
+
+  .content {
+    margin-top: 50px;
+    padding: 40px 25px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;  <-- 이 줄을 삭제하거나 flex-start로 변경하세요 */
+    align-items: flex-start;
+  }
+
+  .content .mobileMenuList {
+    display: flex;
+    flex-direction: column; /* 메인 메뉴 가로 배치 */
+    gap: 20px; /* 메뉴 사이 간격 */
+    width: 100%;
+    margin-bottom: 20px; /* 서브메뉴와의 간격 */
+    flex-wrap: wrap; /* 화면 좁으면 다음줄로 */
+  }
+
+  .content .mobileMenuList > li {
+    width: auto; /* li가 가로로 필요한 만큼만 차지하게 함 */
+  }
+
+  /* 서브메뉴 스타일 수정 */
+  .subMenu {
+    display: flex;
+    flex-direction: column; /* 서브메뉴는 세로 배치 */
+    gap: 10px;
+    width: 100%; /* 부모 너비 전체 사용 */
+    padding: 20px 0;
+  }
+
+  .subMenu li {
+    width: 100%;
+  }
+
+  .menuToggleButton {
+    font-size: 15px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* 서브메뉴를 다시 세로로 배치 */
+}

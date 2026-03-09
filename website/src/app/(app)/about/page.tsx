@@ -8,15 +8,15 @@ export default function About() {
       <div className={styles.content}>
         <p>
           Carmel Studio is a curated space where a workshop meets a concept
-          store. Through classes in lacquerware, kintsugi, and marbling, the
-          studio explores —the subtle beauty of everyday life—and Wabi-Sabi,
-          where imperfection reveals depth and harmony.
+          store. Rooted in the philosophy of Wabi-Sabi, the studio explores the
+          subtle beauty of everyday life, where imperfection reveals depth and
+          harmony.
         </p>
         <p>
-          Featuring works from Korean, Japanese, and American artists, each
-          piece is carefully curated by the owner’s distinctive sense of style,
-          offering objects and artworks that turn even the simplest moments into
-          something special.
+          Showcasing works by a diverse range of artists, Carmel Studio
+          thoughtfully curates objects and artworks with a distinctive aesthetic
+          sensibility, offering pieces that elevate even the simplest moments
+          into something meaningful.
         </p>
       </div>
     </div>

@@ -26,12 +26,11 @@ export default async function Workshop() {
 
       {/* 소개 문구 */}
       <p className={styles.description}>
-        At CRML Studio, we believe that creativity begins with the hands. Each
-        workshop is designed to help you reconnect with the process of making —
-        from the subtle rhythm of brushstrokes to the delicate layering of
-        color. Whether you’re a beginner or an experienced artist, our sessions
-        provide an inspiring space to explore traditional craftsmanship in a
-        modern way.
+        At CRML Studio, we host marbling workshops that embrace the beauty of
+        chance to create uniquely perfect patterns, along with Kintsugi
+        workshops where broken and chipped ceramics are thoughtfully restored,
+        inviting participants to experience the philosophy and beauty of
+        wabi-sabi.
       </p>
 
       {/* 워크숍 카드 리스트 */}

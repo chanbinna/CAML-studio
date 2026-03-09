@@ -6,27 +6,65 @@ import Image from "next/image";
 import styles from "./Navbar.module.css";
 
 export default function NavbarMobile() {
-  const { openLeft, openRight } = useSidebar();
+  const { openLeft, closeAll, leftView, openRight } = useSidebar();
   const { cart } = useCart();
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const isMenuOpen = leftView === "menu";
+
   return (
     <nav className={styles.mobileNav}>
-      {/* 왼쪽 햄버거 메뉴 */}
+      {/* 왼쪽 햄버거/X 메뉴 */}
       <button
-        className={styles.mobileIcon}
-        // onClick={() => openLeft("menu")}
-        aria-label='Open menu'
+        data-sidebar-trigger
+        className={`${styles.mobileIcon} ${isMenuOpen ? styles.menuOpen : ""}`}
+        onClick={() => {
+          if (isMenuOpen) {
+            closeAll();
+          } else {
+            openLeft("menu");
+          }
+        }}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
       >
         <svg
-          viewBox='0 0 20 14'
-          role='presentation'
+          viewBox='0 0 20 20'
           xmlns='http://www.w3.org/2000/svg'
+          className={styles.menuSvg}
         >
-          <path
-            d='M0 14v-1h20v1H0zm0-7.5h20v1H0v-1zM0 0h20v1H0V0z'
-            fill='currentColor'
-          ></path>
+          {/* Top line → becomes top-left to center diagonal */}
+          <line
+            x1='1'
+            y1='5'
+            x2='19'
+            y2='5'
+            stroke='currentColor'
+            strokeWidth='1.2'
+            strokeLinecap='round'
+            className={`${styles.line} ${styles.lineTop}`}
+          />
+          {/* Middle line → stays but fades out */}
+          <line
+            x1='1'
+            y1='10'
+            x2='19'
+            y2='10'
+            stroke='currentColor'
+            strokeWidth='1.2'
+            strokeLinecap='round'
+            className={`${styles.line} ${styles.lineMid}`}
+          />
+          {/* Bottom line → becomes bottom-left to center diagonal */}
+          <line
+            x1='1'
+            y1='15'
+            x2='19'
+            y2='15'
+            stroke='currentColor'
+            strokeWidth='1.2'
+            strokeLinecap='round'
+            className={`${styles.line} ${styles.lineBot}`}
+          />
         </svg>
       </button>
 
@@ -47,7 +85,7 @@ export default function NavbarMobile() {
               transform='translate(1 1)'
               stroke='currentColor'
               fill='none'
-              stroke-linecap='square'
+              strokeLinecap='square'
             >
               <path d='M16 16l-5.0752-5.0752'></path>
               <circle cx='6.4' cy='6.4' r='6.4'></circle>

@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-type LeftView = "shop" | "workshop" | null;
+type LeftView = "shop" | "workshop" | "menu" | null;
 type RightView = "login" | "search" | "cart" | "account" | null;
 
 type SidebarContextType = {
@@ -64,11 +64,8 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 
     const onPointerDown = (e: PointerEvent) => {
       const t = e.target as HTMLElement | null;
-
-      // 사이드바 패널 내부 클릭이면 무시
       if (t && t.closest("[data-sidebar-panel]")) return;
-
-      // 패널 밖(네비바 포함) 클릭이면 닫기
+      if (t && t.closest("[data-sidebar-trigger]")) return; // ← add this line
       closeAll();
     };
 

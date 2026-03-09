@@ -156,3 +156,44 @@
   top: -3px;
   right: -3px;
 }
+
+.menuSvg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.35s ease;
+}
+
+/* Rotate the whole icon 90deg when open */
+.menuOpen .menuSvg {
+  transform: rotate(90deg);
+}
+
+.line {
+  transform-origin: center;
+  transition:
+    transform 0.35s ease,
+    opacity 0.25s ease;
+}
+
+.lineTop {
+  transform-origin: 10px 5px; /* center of that line */
+  transform: translateY(0) rotate(0deg);
+}
+.lineMid {
+  transform-origin: 10px 10px;
+  opacity: 1;
+}
+.lineBot {
+  transform-origin: 10px 15px; /* center of that line */
+  transform: translateY(0) rotate(0deg);
+}
+
+.menuOpen .lineTop {
+  transform: translateY(5px) rotate(45deg);
+}
+.menuOpen .lineMid {
+  opacity: 0;
+}
+.menuOpen .lineBot {
+  transform: translateY(-5px) rotate(-45deg);
+}
