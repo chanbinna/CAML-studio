@@ -130,6 +130,7 @@
   transition: opacity 0.15s ease;
   font-size: 12px;
 }
+
 .buy:hover {
   opacity: 0.92;
 }
@@ -234,4 +235,35 @@
 .errorText {
   color: #d32f2f;
   font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    padding: 20px;
+    margin-top: 40px;
+  }
+
+  .thumb {
+    width: 100%;
+  }
+
+  .info {
+    gap: 5px;
+  }
+
+  .title {
+    font-size: 15px;
+    font-weight: 100;
+    text-align: center;
+  }
+
+  .price {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .quantityText {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
 }

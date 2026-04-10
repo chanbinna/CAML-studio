@@ -197,3 +197,24 @@
 .menuOpen .lineBot {
   transform: translateY(-5px) rotate(-45deg);
 }
+
+:root {
+  --scrollbar-width: 0px;
+}
+
+.navbar,
+.mobileNav {
+  right: var(--scrollbar-width);
+}
+
+.mobileIcon {
+  color: #000; /* 또는 inherit */
+  -webkit-tap-highlight-color: transparent;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileIcon {
+  -webkit-tap-highlight-color: transparent;
+}

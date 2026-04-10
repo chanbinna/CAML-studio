@@ -30,6 +30,16 @@
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .container {
+    margin-top: 40px;
+    padding: 20px;
+  }
+
+  .description {
+    margin-bottom: 12px; /* gray-500 */
   }
 }
 
@@ -53,6 +63,7 @@
   overflow: hidden;
   background: #f9fafb; /* gray-50 */
 }
+
 .thumb {
   object-fit: cover;
   transition: transform 0.3s ease;
@@ -79,4 +90,3 @@
   display: flex;
   gap: 10px;
 }
-

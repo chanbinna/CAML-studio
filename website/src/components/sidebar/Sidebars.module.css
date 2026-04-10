@@ -654,4 +654,26 @@
   }
 
   /* 서브메뉴를 다시 세로로 배치 */
+
+  aside.panel.right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  aside.panel.right .content,
+  aside.panel.right .content2,
+  aside.panel.right .contentCart {
+    margin-top: 50px;
+    padding: 20px;
+    width: 80%;
+  }
+
+  aside.panel.right .searchbar button:not(.clearBtn) {
+    display: none;
+  }
+
+  aside.panel.right .searchbar .field {
+    width: 100%;
+  }
 }

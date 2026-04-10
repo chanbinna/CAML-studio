@@ -52,9 +52,21 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   // Lock body scroll when a sidebar is open
   useEffect(() => {
     const any = leftView || rightView;
-    document.documentElement.style.overflow = any ? "hidden" : "";
+    if (any) {
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.overflow = "hidden";
+      // navbar는 right를 scrollbarWidth만큼 줄여서 보정
+      document.documentElement.style.setProperty(
+        "--scrollbar-width",
+        `${sw}px`,
+      );
+    } else {
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.setProperty("--scrollbar-width", "0px");
+    }
     return () => {
       document.documentElement.style.overflow = "";
+      document.documentElement.style.paddingRight = "";
     };
   }, [leftView, rightView]);
 

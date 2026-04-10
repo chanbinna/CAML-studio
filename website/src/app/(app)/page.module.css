@@ -87,16 +87,23 @@
 }
 
 @media (max-width: 768px) {
+  .page {
+    min-height: unset;
+  }
+
   .main {
     padding-top: 50px;
+    height: calc(100svh - 50px);
+    overflow: hidden;
   }
 
   .container {
-    padding: 0 20px;
-    margin: 0 auto;
+    padding: 0;
+    margin: 0;
+    height: 100%;
   }
 
   .grayBox {
-    height: calc(100vh - 50px - 20px);
+    height: 100%;
   }
 }

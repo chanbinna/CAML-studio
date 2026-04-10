@@ -4,9 +4,10 @@ import { useSidebar } from "@/components/sidebar/SidebarProvider";
 import { useCart } from "@/components/CartProvider";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
+import Link from "next/link";
 
 export default function NavbarMobile() {
-  const { openLeft, closeAll, leftView, openRight } = useSidebar();
+  const { openLeft, closeAll, leftView, openRight, rightView } = useSidebar();
   const { cart } = useCart();
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -70,14 +71,19 @@ export default function NavbarMobile() {
 
       {/* 가운데 로고 */}
       <div className={styles.mobileLogo}>
-        <Image src='/logo3.png' alt='Logo' width={90} height={62} priority />
+        <Link href='/'>
+          <Image src='/logo3.png' alt='Logo' width={90} height={62} priority />
+        </Link>
       </div>
 
       {/* 오른쪽 아이콘들 */}
       <div className={styles.mobileRight}>
         <button
+          data-sidebar-trigger
           className={styles.mobileIcon}
-          onClick={() => openRight("search")}
+          onClick={() =>
+            rightView === "search" ? closeAll() : openRight("search")
+          }
           aria-label='Search'
         >
           <svg viewBox='0 0 18 17' xmlns='http://www.w3.org/2000/svg'>
@@ -94,8 +100,11 @@ export default function NavbarMobile() {
         </button>
 
         <button
+          data-sidebar-trigger
           className={styles.mobileIcon}
-          onClick={() => openRight("cart")}
+          onClick={() =>
+            rightView === "cart" ? closeAll() : openRight("cart")
+          }
           aria-label='Cart'
         >
           <svg viewBox='0 0 17 20' fill='none'>
